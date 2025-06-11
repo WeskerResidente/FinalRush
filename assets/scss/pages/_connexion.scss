@@ -1,0 +1,86 @@
+
+@import '../abstracts/variable';
+@import '../abstracts/typographies';
+@import '../base/utilities';
+@import '../components/buttons';
+
+
+.page-connexion {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: $form-bg;         
+  padding: 1.5rem;
+  border: 1px solid $form-border;  
+  @include rounded(0.5rem);      
+  box-shadow:
+    0 0 10px rgba(187, 136, 255, 0.5),
+    inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+  h3 {
+    font-size: 2rem;
+    color: $heading-color;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow:
+      0 0 5px $heading-shadow,
+      0 0 10px $heading-shadow;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 0.5rem 0 0.2rem;
+      color: $text-color;
+      font-weight: 600;
+      text-shadow: 0 0 3px $heading-color;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid $input-border;
+      @include rounded(0.3rem);
+      color: $text-color;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $input-focus-border;
+      }
+    }
+
+    button {
+      align-self: center;
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .page-connexion {
+    margin: 1rem;
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.6rem;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      font-size: 0.9rem;
+    }
+
+    button {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+}

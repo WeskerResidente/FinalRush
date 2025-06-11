@@ -1,0 +1,203 @@
+@import '../abstracts/variable';
+@import '../base/utilities';
+@import '../components/buttons';
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 400px;
+  background: url('../img/hero.png') no-repeat center / cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 0, 18, 0.6);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #f0eaff;
+    max-width: 800px;
+    padding: 0 1rem;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow:
+        0 0 6px rgba(187, 136, 255, 0.8),
+        0 0 12px rgba(255, 255, 255, 0.4);
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .btn-hero {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(187, 136, 255, 0.8);
+        border: 1px solid #bb88ff;
+        color: #fff;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          background: rgba(187, 136, 255, 1);
+          box-shadow: 0 0 10px rgba(187, 136, 255, 0.7);
+        }
+
+        &--outline {
+          background: transparent;
+          border: 1px solid #bb88ff;
+          color: #bb88ff;
+
+          &:hover {
+            background: rgba(187, 136, 255, 0.2);
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  .feature-card {
+    background: $form-bg;
+    border: 1px solid $form-border;
+    @include rounded(0.6rem);
+    box-shadow:
+      0 0 10px rgba(0, 0, 0, 0.3),
+      inset 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 0 15px rgba(187, 136, 255, 0.7),
+        inset 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    &__content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        color: $heading-color;
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        text-shadow:
+          0 0 4px rgba(187, 136, 255, 0.6),
+          0 0 8px rgba(255, 255, 255, 0.3);
+      }
+
+      p {
+        flex: 1;
+        color: $text-color;
+        line-height: 1.4;
+        margin: 0 0 1rem 0;
+        font-size: 1rem;
+      }
+
+      .btn-feature {
+        align-self: flex-start;
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+        background: rgba(187, 136, 255, 0.8);
+        border: 1px solid #bb88ff;
+        color: #fff;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          background: rgba(187, 136, 255, 1);
+          box-shadow: 0 0 8px rgba(187, 136, 255, 0.7);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    height: 60vh;
+
+    .hero-content {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .hero-buttons .btn-hero {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+  }
+
+  .features-section {
+    gap: 1.5rem;
+
+    .feature-card {
+      img {
+        height: 150px;
+      }
+
+      &__content h2 {
+        font-size: 1.3rem;
+      }
+
+      &__content p {
+        font-size: 0.95rem;
+      }
+
+      .btn-feature {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+}

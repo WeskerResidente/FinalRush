@@ -1,0 +1,118 @@
+// assets/scss/Layout/_header.scss
+
+@import '../abstracts/variable';
+@import '../abstracts/typographies';
+@import '../base/utilities';
+@import '../components/buttons';
+
+
+header.container {
+  background: rgba(30, 0, 30, 0.8);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+
+  nav {
+    ul.navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        a {
+          font-weight: 700;
+          color: $text-color;
+          text-decoration: none;
+          position: relative;
+          padding: 0.25rem 0.5rem;
+          transition: color 0.3s ease, text-shadow 0.3s ease;
+
+          &:hover {
+            color: $link-hover-color;
+            text-shadow: 0 0 5px $link-hover-shadow;
+          }
+        }
+      }
+    }
+  }
+
+  .navbar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        a > button,
+        form > button {
+          font-size: 0.9rem;
+          padding: 0.4rem 0.8rem;
+        }
+
+        p {
+          margin: 0;
+          font-size: 0.9rem;
+          color: $text-color;
+          text-shadow: 0 0 3px $heading-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  header.container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.8rem 1rem;
+
+    nav {
+      ul.navbar {
+        flex-direction: column;
+        gap: 1rem;
+
+        li {
+          a {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .navbar {
+      margin-left: 0;
+      margin-top: 1rem;
+
+      ul {
+        flex-direction: column;
+        gap: 0.8rem;
+
+        li {
+          p {
+            font-size: 0.85rem;
+          }
+
+          a > button,
+          form > button {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.6rem;
+          }
+        }
+      }
+    }
+  }
+}

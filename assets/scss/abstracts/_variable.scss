@@ -1,0 +1,32 @@
+@import '../abstracts/typographies';
+
+$bg-gradient-start:   #1a001a;
+$bg-gradient-end:     #000000;
+$text-color:          #f0e6f6;
+$heading-color:       #d9b3ff;
+$heading-shadow:      rgba(187, 136, 255, 0.6);
+
+$link-color:          #a67eff;
+$link-hover-color:    #ffffff;
+$link-hover-shadow:   #b873ff;
+
+$button-bg-start:     #4b004b;
+$button-bg-end:       #220022;
+$button-border:       #a366ff;
+$button-hover-bg-start: #5c005c;
+$button-hover-bg-end:   #330033;
+$button-shadow:       rgba(187, 136, 255, 0.7);
+
+$list-bg:             rgba(50, 0, 50, 0.6);
+$list-border:         #9933cc;
+$list-hover-bg:       rgba(60, 0, 60, 0.8);
+
+$form-bg:             rgba(50, 0, 50, 0.5);
+$form-border:         #9933cc;
+
+$input-border:        #660066;
+$input-focus-border:  #b366ff;
+
+$pseudo-bg:           rgba(187, 136, 255, 0.3);
+
+$font-primary: "Figtree Regular";

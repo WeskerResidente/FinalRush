@@ -1,0 +1,11 @@
+@import '../abstracts/variable';
+
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  color: #b3a1ff;
+  font-size: 0.9rem;
+  border-top: 1px solid $input-border;
+  margin-top: 3rem;
+  background-color: rgba(20, 0, 20, 0.7);
+}

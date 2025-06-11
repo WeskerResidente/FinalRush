@@ -1,0 +1,30 @@
+@import '../abstracts/variable';
+
+button,
+.btn-magique {
+  background: linear-gradient(135deg, $button-bg-start, $button-bg-end);
+  border: 2px solid $button-border;
+  padding: 0.5rem 1rem;
+  font-family: 'magic';
+  font-weight: 700;
+  color: $text-color;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, $button-hover-bg-start, $button-hover-bg-end);
+    box-shadow:
+      0 0 10px $button-shadow,
+      0 0 20px $button-shadow;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0 5px $button-shadow;
+  }
+}

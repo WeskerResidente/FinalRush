@@ -1,0 +1,130 @@
+@import '../abstracts/variable';
+@import '../abstracts/typographies';
+@import '../base/utilities';
+@import '../components/buttons';
+
+.page-modification-monstre {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: $form-bg;
+  border: 1px solid $form-border;
+  @include rounded(0.6rem);
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),
+    inset 0 0 5px rgba(0, 0, 0, 0.05);
+
+  .titre-page {
+    font-family: 'Cinzel', serif;
+    color: $heading-color;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow:
+      0 0 3px rgba(0, 0, 0, 0.2),
+      0 0 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .message {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    @include rounded(0.4rem);
+
+    &.erreur {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid red;
+      color: red;
+    }
+
+    &.succes {
+      background: rgba(0, 128, 0, 0.1);
+      border: 1px solid green;
+      color: green;
+    }
+  }
+
+  .form-modif-monstre {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+        color: $text-color;
+      }
+
+      input[type="text"],
+      textarea,
+      input[type="file"] {
+        padding: 0.5rem;
+        border: 1px solid $form-border;
+        @include rounded(0.3rem);
+        font-size: 1rem;
+        color: $text-color;
+
+        &:focus {
+          outline: none;
+          border-color: $link-hover-color;
+          box-shadow: 0 0 5px rgba(187, 136, 255, 0.5);
+        }
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .preview-image {
+      margin-top: 1rem;
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      img {
+        max-width: 100%;
+        border: 1px solid $form-border;
+        @include rounded(0.4rem);
+        box-shadow:
+          0 0 5px rgba(0, 0, 0, 0.1),
+          inset 0 0 3px rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    .form-actions {
+      margin-top: 1.5rem;
+      text-align: center;
+
+      .btn-enregistrer {
+
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .page-modification-monstre {
+    padding: 1rem;
+    .titre-page {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .form-modif-monstre .form-group label {
+      font-size: 0.9rem;
+    }
+    .form-modif-monstre input[type="text"],
+    .form-modif-monstre textarea,
+    .form-modif-monstre input[type="file"] {
+      font-size: 0.9rem;
+    }
+    .form-actions .btn-enregistrer {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+}

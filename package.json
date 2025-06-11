@@ -1,0 +1,9 @@
+{
+  "scripts": {
+  "sass": "sass -w assets/scss:assets/css"
+  },
+  "dependencies": {
+    "sass": "^1.89.1"
+  }
+  
+}

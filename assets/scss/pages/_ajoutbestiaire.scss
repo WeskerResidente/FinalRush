@@ -1,0 +1,124 @@
+
+
+@import '../abstracts/variable';
+@import '../abstracts/typographies';
+@import '../base/utilities';
+@import '../components/buttons';
+
+.page-ajout-monstre {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: $form-bg;    
+  padding: 2rem;
+  border: 1px solid $form-border;  
+  @include rounded(0.6rem);        
+  box-shadow:
+    0 0 10px rgba(187, 136, 255, 0.5),
+    inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+  h3 {
+    font-size: 2.2rem;
+    color: $heading-color;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow:
+      0 0 5px $heading-shadow,
+      0 0 10px $heading-shadow;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      margin-bottom: 1.2rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.4rem;
+        color: $text-color;
+        font-weight: 600;
+        text-shadow: 0 0 3px $heading-color;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 0.7rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid $input-border;
+        @include rounded(0.3rem);
+        color: $text-color;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: $input-focus-border;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      input[type="file"] {
+        color: $text-color;
+      }
+    }
+
+    button[name="creerMonstre"] {
+
+      align-self: center;
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .message {
+    padding: 0.8rem 1rem;
+    @include rounded(0.4rem);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+
+    &.erreur {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid #ff4d4d;
+      color: #ff4d4d;
+    }
+
+    &.succes {
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid #4dff4d;
+      color: #4dff4d;
+    }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .page-ajout-monstre {
+    margin: 1rem;
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.8rem;
+    }
+
+    form div {
+      margin-bottom: 1rem;
+
+      input[type="text"],
+      textarea {
+        font-size: 0.9rem;
+      }
+    }
+
+    button[name="creerMonstre"] {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+}

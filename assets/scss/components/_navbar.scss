@@ -1,0 +1,128 @@
+
+
+@import '../abstracts/variable';  
+@import '../abstracts/typographies'; 
+@import '../base/utilities';      
+@import '../components/buttons';    
+
+.navbar-main {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    position: relative; 
+
+    a {
+      font-weight: 700;
+      color: $text-color;
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+
+      &:hover {
+        color: $link-hover-color;
+        text-shadow: 0 0 5px $link-hover-shadow;
+      }
+    }
+  }
+}
+
+
+.dropdown {
+  position: relative;
+
+  .dropdown-menu {
+    display: none;       
+    position: absolute;    
+    top: 100%;           
+    left: 0;
+    background: rgba(30, 0, 30, 0.9);
+    border: 1px solid $button-border;
+    @include rounded(0.4rem);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    min-width: 180px;     
+    padding: 0.5rem 0;    
+
+    li {
+      list-style: none;
+
+      a {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: $text-color;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: background 0.2s ease, color 0.2s ease;
+
+        &:hover {
+          background: rgba(70, 0, 70, 0.8);
+          color: $link-hover-color;
+        }
+      }
+    }
+  }
+
+  &:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+.navbar-user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: $text-color;
+        text-shadow: 0 0 3px $heading-color;
+      }
+
+      a.btn-magique,
+      form > button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-main {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dropdown .dropdown-menu {
+    position: static;
+    margin-top: 0.5rem;
+    box-shadow: none;
+    border: none;
+    background: rgba(30, 0, 30, 0.8);
+    width: 100%;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}

@@ -1,0 +1,199 @@
+@import '../abstracts/variable';
+@import '../base/utilities';
+@import '../components/buttons';
+
+.admin-panel {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #120012;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  @include rounded(0.8rem);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.7),
+    inset 0 0 10px rgba(0, 0, 0, 0.3);
+
+  &__title {
+    font-size: 2.6rem;
+    text-align: center;
+    color: #e0d0ff;
+    margin-bottom: 2rem;
+    text-shadow:
+      0 0 8px rgba(187, 136, 255, 0.8),
+      0 0 16px rgba(255, 255, 255, 0.4);
+  }
+
+  &__message {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(0, 200, 0, 0.15);
+    border: 1px solid #00ff00;
+    color: #caffca;
+    @include rounded(0.5rem);
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  &__grid-header,
+  &__grid-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+
+  &__grid-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.5rem;
+
+    .admin-panel__cell {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+
+  &__grid-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 0.5rem;
+
+    &:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .admin-panel__cell {
+      color: #eaeaff;
+      font-size: 0.95rem;
+      padding: 0.25rem 0;
+
+      &--name {
+        padding-right: 1rem;
+        word-break: break-word;
+      }
+
+      &--spec {
+        padding: 0 1rem;
+      }
+
+      &--actions {
+        display: flex;
+        justify-content: center;
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  &__you {
+    font-style: italic;
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+}
+
+
+.form-spec {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    color: #ccc;
+
+    input[type='checkbox'] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: #bb88ff;
+    }
+  }
+
+  .btn--update {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(187, 136, 255, 0.6);
+    border: 1px solid #bb88ff;
+    color: #fff;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background: rgba(187, 136, 255, 1);
+      box-shadow: 0 0 8px rgba(187, 136, 255, 0.7);
+    }
+  }
+}
+
+.form-delete {
+  .btn--delete {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(220, 50, 50, 0.7);
+    border: 1px solid #ff4444;
+    color: #fff;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background: rgba(220, 50, 50, 1);
+      box-shadow: 0 0 8px rgba(255, 50, 50, 0.7);
+    }
+  }
+}
+
+
+@media (max-width: 800px) {
+  .admin-panel {
+    padding: 1rem;
+
+    &__title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .admin-panel__grid-header,
+  .admin-panel__grid-row {
+    display: block;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .admin-panel__cell {
+    display: block;
+    padding: 0.5rem 0;
+  }
+
+  .admin-panel__cell--name,
+  .admin-panel__cell--spec,
+  .admin-panel__cell--actions {
+    width: 100%;
+  }
+
+  .form-spec {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    &__list {
+      gap: 0.3rem;
+    }
+  }
+
+  .btn--update,
+  .btn--delete {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
