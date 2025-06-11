@@ -1,5 +1,6 @@
 <?php
 include("essentiel.php");
+include("security.php");
 include("nav.php");
 
 $tournamentId = isset($_GET['tournament_id']) ? (int)$_GET['tournament_id'] : 0;

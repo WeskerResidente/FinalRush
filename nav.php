@@ -1,4 +1,7 @@
-
+<?php 
+$connexion = $_SERVER['PHP_SELF'];
+echo $connexion;
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -18,6 +21,7 @@
         <?php if (isset($_SESSION['user_id'])): ?>
           <?php if ($_SESSION['role'] === 'admin'): ?>
             <li><a href="create_tournament.php">Créer un tournoi</a></li>
+            <li><a href="Admin-Panel.php">Panel Admin</a></li>
           <?php endif; ?>
           <li><a href="my_tournaments.php">Mes tournois</a></li>
         <?php else: ?>

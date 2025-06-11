@@ -1,5 +1,6 @@
 <?php
 include("essentiel.php");
+include("security.php");
 include("nav.php");
 
 $requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at DESC');
