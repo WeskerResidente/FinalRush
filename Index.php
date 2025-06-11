@@ -6,7 +6,7 @@ include("essentiel.php");
 include("nav.php");
 ?>
 <?php 
-$requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at ASC LIMIT 3');
+$requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at DESC LIMIT 3');
 $requestSelect->execute();
 var_dump($requestSelect->errorInfo());
 ?>
