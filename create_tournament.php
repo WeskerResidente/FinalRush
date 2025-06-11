@@ -1,58 +1,25 @@
 <?php
 include("essentiel.php");
 include("nav.php");
+// on définit l'heure par défaut pour la création du tournoi a l'heure locale de paris 
+date_default_timezone_set('Europe/Paris');
+if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['date'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $desc = htmlspecialchars($_POST['description']);
+    $date = htmlspecialchars($_POST['date']);
+    $createdAt = date('Y-m-d H:i:s');
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
-    header('Location: index.php');
-    exit;
-}
+    $requestCreate = $bdd->prepare('INSERT INTO tournaments(name,description,start_date,created_at)
+                                                VALUES(?,?,?,?)');
+    $dataCreate = $requestCreate->execute(array($name,$desc,$date,$createdAt));
 
-$messageSucces = '';
-$messageErreur = '';
 
-if (isset($_POST['creerTournoi'])) {
-    // Récupération et nettoyage des champs
-    $nomTournoi   = trim($_POST['nom_tournoi']   ?? '');
-    $dateDebut    = trim($_POST['date_debut']    ?? '');
-    $dateFin      = trim($_POST['date_fin']      ?? '');
-    $idUser       = $_SESSION['user_id']         ?? null;
-
-    // Vérification des champs obligatoires
-    if ($nomTournoi === '') {
-        $messageErreur = "Le champ « Nom du tournoi » est obligatoire.";
-    } elseif ($dateDebut === '' || !preg_match('/^\d{4}-\d{2}-\d{2}$/',$dateDebut)) {
-        $messageErreur = "La date de début est obligatoire et doit être au format AAAA-MM-JJ.";
-    } elseif ($dateFin !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/',$dateFin)) {
-        $messageErreur = "La date de fin doit être au format AAAA-MM-JJ.";
-    } elseif (is_null($idUser)) {
-        $messageErreur = "Vous devez être connecté pour créer un tournoi.";
-    } else {
-        // Tout est ok : insertion en base
-        $sql = "
-            INSERT INTO tournaments
-              (name, description, start_date, end_date, created_by, created_at)
-            VALUES
-              (:name, :description, :start_date, :end_date, :created_by, NOW())
-        ";
-        $stmt = $bdd->prepare($sql);
-        $stmt->bindValue(':name',        htmlspecialchars($nomTournoi, ENT_QUOTES), PDO::PARAM_STR);
-        $stmt->bindValue(':description', htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES), PDO::PARAM_STR);
-        $stmt->bindValue(':start_date',  $dateDebut,   PDO::PARAM_STR);
-        // Si date_fin vide, on envoie NULL
-        if ($dateFin === '') {
-            $stmt->bindValue(':end_date', null, PDO::PARAM_NULL);
-        } else {
-            $stmt->bindValue(':end_date', $dateFin, PDO::PARAM_STR);
-        }
-        $stmt->bindValue(':created_by',  $idUser, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $messageSucces = "Le tournoi « " . e($nomTournoi) . " » a bien été créé.";
-        } else {
-            $messageErreur = "Erreur lors de l’insertion du tournoi en base. Veuillez réessayer.";
-        }
-    }
-}
+    // header('location:Index.php.php');
+    echo "tournois ajouté avec succès";
+  }
+  var_dump($_SESSION['user_id']);
+// récupération des utilisateurs afin de pouvoir les afficher et les rajouter dans la table des tournois
+$requestSelect = $bdd->prepare('SELECT * FROM users');
 ?>
 
 <!DOCTYPE html>
@@ -63,49 +30,25 @@ if (isset($_POST['creerTournoi'])) {
     <title>Document</title>
 </head>
 <body>
-<form action="create_tournament.php" method="post">
-  <input type="hidden" name="creerTournoi" value="1">
+  <section class="form-create-tournament">
+    <h2>Créer un tournoi</h2>
+    <form action="create_tournament.php" method="post">
+        <div class="form-item-create-tournament">
+            <label for="name">Nom du tournoi :</label>
+            <input type="text" id="name" name="name" required>
+        </div>
 
-  <div class="form-group">
-    <label for="nom_tournoi">Nom du tournoi :</label><br>
-    <input
-      type="text"
-      id="nom_tournoi"
-      name="nom_tournoi"
-      required
-      value="<?= htmlspecialchars($_POST['nom_tournoi'] ?? '', ENT_QUOTES) ?>"
-    >
-  </div>
-
-  <div class="form-group">
-    <label for="description">Description (optionnel) :</label><br>
-    <textarea
-      id="description"
-      name="description"
-    ><?= htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES) ?></textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="date_debut">Date de début :</label><br>
-    <input
-      type="date"
-      id="date_debut"
-      name="date_debut"
-      required
-      value="<?= htmlspecialchars($_POST['date_debut'] ?? '', ENT_QUOTES) ?>"
-    >
-  </div>
-
-  <button type="submit" class="btn-enregistrer">Créer le tournoi</button>
-</form>
-
-<?php if ($messageErreur): ?>
-  <div class="message erreur"><?= htmlspecialchars($messageErreur, ENT_QUOTES) ?></div>
-<?php endif; ?>
-
-<?php if ($messageSucces): ?>
-  <div class="message succes"><?= htmlspecialchars($messageSucces, ENT_QUOTES) ?></div>
-<?php endif; ?>
-
+        <div class="form-item-create-tournament">
+            <label for="description">Ajouter la description :</label>
+            <input type="textarea" name="description" required>
+        </div>
+        <div class="form-item-create-tournament">
+            <label for="date">Date du tournoi :</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-submit-create-tournament">
+          <button>Créer</button>
+        </div>
+  </section>
 </body>
 </html>
