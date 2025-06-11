@@ -1,5 +1,6 @@
 <?php
 include("essentiel.php");
+include("security.php");
 include("nav.php");
 
 // Initialisation des messages

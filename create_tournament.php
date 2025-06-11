@@ -1,5 +1,6 @@
 <?php
 include("essentiel.php");
+include("security.php");
 include("nav.php");
 // on définit l'heure par défaut pour la création du tournoi a l'heure locale de paris 
 date_default_timezone_set('Europe/Paris');

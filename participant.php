@@ -1,6 +1,7 @@
 <?php
 
 include("essentiel.php");
+include("security.php");
 include("nav.php");
 
 // Seul l’admin peut accéder ici
