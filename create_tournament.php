@@ -7,17 +7,18 @@ if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['da
     $name = htmlspecialchars($_POST['name']);
     $desc = htmlspecialchars($_POST['description']);
     $date = htmlspecialchars($_POST['date']);
+    $formatedDate = date('Y-m-d H:i:s', strtotime($date));
     $createdAt = date('Y-m-d H:i:s');
-
+    echo $formatedDate;
+    var_dump($formatedDate);
     $requestCreate = $bdd->prepare('INSERT INTO tournaments(name,description,start_date,created_at)
                                                 VALUES(?,?,?,?)');
-    $dataCreate = $requestCreate->execute(array($name,$desc,$date,$createdAt));
+    $dataCreate = $requestCreate->execute(array($name,$desc,$formatedDate,$createdAt));
 
 
     // header('location:Index.php.php');
     echo "tournois ajouté avec succès";
   }
-
 // récupération des utilisateurs afin de pouvoir les afficher et les rajouter dans la table des tournois
 $requestSelect = $bdd->prepare('SELECT * FROM users');
 ?>
@@ -44,7 +45,7 @@ $requestSelect = $bdd->prepare('SELECT * FROM users');
         </div>
         <div class="form-item-create-tournament">
             <label for="date">Date du tournoi :</label>
-            <input type="date" id="date" name="date" required>
+            <input type="datetime-local" id="date" name="date" required>
         </div>
         <div class="form-submit-create-tournament">
           <button>Créer</button>

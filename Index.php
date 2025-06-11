@@ -29,7 +29,7 @@ var_dump($requestSelect->errorInfo());
                     <p><?= htmlspecialchars($tournament['description']) ?></p>
                     <p>Date de début : <?= htmlspecialchars($tournament['start_date']) ?></p>
                     <p>Créé le : <?= htmlspecialchars($tournament['created_at']) ?></p>
-                    <a href="tournament_details.php?id=<?= $tournament['id'] ?>">Voir les détails</a>
+                    <a href="tournaments.php#tournamentID-<?= $tournament['id'] ?>">Voir les détails</a>
                 </div>
             <?php endwhile; ?>
         </div>
