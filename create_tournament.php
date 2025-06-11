@@ -17,7 +17,7 @@ if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['da
     // header('location:Index.php.php');
     echo "tournois ajouté avec succès";
   }
-  var_dump($_SESSION['user']);
+
 // récupération des utilisateurs afin de pouvoir les afficher et les rajouter dans la table des tournois
 $requestSelect = $bdd->prepare('SELECT * FROM users');
 ?>
