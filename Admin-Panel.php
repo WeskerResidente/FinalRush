@@ -12,7 +12,7 @@ $usersPerPage = 10;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $usersPerPage;
 
-$totalUsers = $bdd->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalUsers = $bdd->prepare("SELECT COUNT(*) FROM users")->fetchColumn();
 $totalPages = ceil($totalUsers / $usersPerPage);
 
 $stmt = $bdd->prepare("SELECT * FROM users ORDER BY id ASC LIMIT :limit OFFSET :offset");
@@ -22,7 +22,7 @@ $stmt->execute();
 $users = $stmt->fetchAll();
 
 // Pagination tournois
-$tournoisPerPage = 10;
+$tournoisPerPage = 5;
 $pageTournoi = isset($_GET['page_tournoi']) ? max(1, intval($_GET['page_tournoi'])) : 1;
 $offsetTournoi = ($pageTournoi - 1) * $tournoisPerPage;
 
