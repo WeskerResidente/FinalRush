@@ -6,14 +6,19 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Refresh:2; url=index.php");
     die("Accès interdit. Redirection vers la page d'accueil dans 2 secondes.");
 }
-// Récupération de tous les utilisateurs
-$users = $bdd->query("SELECT * 
-                                FROM users 
-                                ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-?>
-<?php
 
-// Suppression si paramètre "delete" en GET
+$usersPerPage = 10;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $usersPerPage;
+
+$totalUsers = $bdd->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalPages = ceil($totalUsers / $usersPerPage);
+
+$stmt = $bdd->prepare("SELECT * FROM users ORDER BY id ASC LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $usersPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$users = $stmt->fetchAll();
 if (isset($_GET['delete'])) {
     if ($_GET['delete'] == $_SESSION['user_id']) {
         header("Refresh:2; url=Admin-panel.php");
@@ -26,7 +31,33 @@ if (isset($_GET['delete'])) {
         exit;
     }
 }
+?>
 
+<?php 
+    // Pagination pour les tournois
+    $tournoisPerPage = 10;
+    $pageTournoi = isset($_GET['page_tournoi']) ? max(1, intval($_GET['page_tournoi'])) : 1;
+    $offsetTournoi = ($pageTournoi - 1) * $tournoisPerPage;
+
+    // Supprimer un tournoi
+    if (isset($_GET['delete_tournament'])) {
+        $tid = (int)$_GET['delete_tournament'];
+        // Supprimer les participants liés
+        $bdd->prepare("DELETE FROM participants WHERE tournament_id = ?")->execute([$tid]);
+        // Supprimer le tournoi
+        $bdd->prepare("DELETE FROM tournaments WHERE id = ?")->execute([$tid]);
+        header("Location: Admin-panel.php");
+        exit;
+    }
+
+    // Supprimer un participant d'un tournoi
+    if (isset($_GET['remove_participant']) && isset($_GET['tournament'])) {
+        $uid = (int)$_GET['remove_participant'];
+        $tid = (int)$_GET['tournament'];
+        $bdd->prepare("DELETE FROM participants WHERE user_id = ? AND tournament_id = ?")->execute([$uid, $tid]);
+        header("Location: Admin-panel.php");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +106,71 @@ if (isset($_GET['delete'])) {
                 <td><?= htmlspecialchars($user['role']) ?></td>
                 <td>
                     <a href="Admin-panel.php?delete=<?= $user['id'] ?>" class="delete" onclick="return confirm('Supprimer cet utilisateur ?');">🗑 Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+        <?php if ($totalPages > 1): ?>
+        <div style="text-align:center; margin:20px;">
+            <?php if ($page > 1): ?>
+                <a href="Admin-panel.php?page=<?= $page - 1 ?>" style="margin-right:10px;">&laquo; Précédent</a>
+            <?php endif; ?>
+            Page <?= $page ?> / <?= $totalPages ?>
+            <?php if ($page < $totalPages): ?>
+                <a href="Admin-panel.php?page=<?= $page + 1 ?>" style="margin-left:10px;">Suivant &raquo;</a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
+    <h1>Liste des tournois</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Date de début</th>
+                <th>Créé le</th>
+                <th>Participants</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        // Récupérer tous les tournois
+        $tournaments = $bdd->query("SELECT * 
+                                            FROM tournaments 
+                                            ORDER BY id DESC")->fetchAll();
+        foreach ($tournaments as $tournament):
+            // Récupérer les participants de ce tournoi
+            $stmtP = $bdd->prepare("SELECT users.id, users.username 
+                                            FROM participants 
+                                            JOIN users ON participants.user_id = users.id 
+                                            WHERE participants.tournament_id = ?");
+            $stmtP->execute([$tournament['id']]);
+            $participants = $stmtP->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+            <tr>
+                <td><?= htmlspecialchars($tournament['id']) ?></td>
+                <td><?= htmlspecialchars($tournament['name']) ?></td>
+                <td><?= htmlspecialchars($tournament['start_date']) ?></td>
+                <td><?= htmlspecialchars($tournament['created_at']) ?></td>
+                <td>
+                    <?php if ($participants): ?>
+                        <ul style="padding-left:15px;">
+                        <?php foreach ($participants as $p): ?>
+                            <li>
+                                <?= htmlspecialchars($p['username']) ?>
+                                <a href="Admin-panel.php?remove_participant=<?= $p['id'] ?>&tournament=<?= $tournament['id'] ?>" class="delete" onclick="return confirm('Retirer ce participant ?');" title="Supprimer ce participant">❌</a>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        Aucun
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <a href="Admin-panel.php?delete_tournament=<?= $tournament['id'] ?>" class="delete" onclick="return confirm('Supprimer ce tournoi ?');">🗑 Supprimer</a>
                 </td>
             </tr>
         <?php endforeach; ?>

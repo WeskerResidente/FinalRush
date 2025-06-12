@@ -1,4 +1,6 @@
 <?php
+include("essentiel.php");
+include("security.php");
 $isAdmin=isset($_SESSION['role'])&&$_SESSION['role']==='admin';
 $t=(int)($_GET['tournament_id']??0);
 $stmtT=$bdd->prepare("SELECT name,is_closed FROM tournaments WHERE id=?");$stmtT->execute([$t]);
