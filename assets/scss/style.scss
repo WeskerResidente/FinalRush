@@ -1,29 +1,23 @@
-// 1. Variables + typo
+// abstracts
 @use 'abstracts/variable';
 @use 'abstracts/typographies';
 
-// 2. Base globale
-@use 'base/base';
+// base
+@use 'base/reset';
 @use 'base/utilities';
 
-// 3. Layout (header, footer)
-@use 'layout/header';
-@use 'layout/footer';
-
-// 4. Composants
+// components
 @use 'components/buttons';
 @use 'components/navbar';
 @use 'components/tournament-card';
 
-// 5. Pages / Sections
-@use 'pages/acceuil';
-@use 'pages/bestiaires';
+// layout
+@use 'layout/header';
+@use 'layout/footer';
+
+// pages 
 @use 'pages/inscription';
 @use 'pages/connexion';
-@use 'pages/ajoutbestiaire';
-@use 'pages/modifier-monstre';
-@use 'pages/panneau_admin';
-@use 'pages/suppresion_monstre';
-@use 'pages/codex';
-
+@use 'pages/tournaments';
+@use 'pages/bracket';
 

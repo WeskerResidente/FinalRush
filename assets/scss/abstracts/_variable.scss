@@ -1,18 +1,18 @@
-@use '../abstracts/typographies';
 
-// Couleurs principales
-$color-bg: #0d0d0d;
-$color-primary: #8f00ff;   // violet néon
-$color-secondary: #00e5ff; // bleu électrique
-$color-accent: #ff003c;    // rouge néon
-$color-success: #39ff14;   // vert acide
-$color-light: #d9d9d9;
 
-// Typographie
-$font-title: 'Orbitron', sans-serif;
-$font-body: 'Roboto', sans-serif;
+// 🎨 Palette Gamer
+$color-bg          : #0d0d0d;   // noir profond
+$color-primary     : #8f00ff;   // violet néon
+$color-secondary   : #00e5ff;   // bleu électrique
+$color-accent      : #ff003c;   // rouge néon
+$color-success     : #39ff14;   // vert acide
+$color-light       : #d9d9d9;   // gris clair
 
-// Effets
-$transition-fast: 0.2s ease-in-out;
-$glow-primary: 0 0 10px $color-primary;
-$glow-secondary: 0 0 10px $color-secondary;
+// 🔠 Typographie
+$font-title        : 'Orbitron', 'Audiowide', sans-serif;
+$font-body         : 'Roboto', 'Rajdhani', 'Exo', sans-serif;
+
+// ⚡ Effets
+$transition-fast   : 0.2s ease-in-out;
+$glow-primary      : 0 0 10px $color-primary;
+$glow-secondary    : 0 0 10px $color-secondary;

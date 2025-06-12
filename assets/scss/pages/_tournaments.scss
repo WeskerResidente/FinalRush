@@ -1,0 +1,69 @@
+// components/_tournament-list.scss
+
+@use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
+
+#tournament-index {
+  max-width: 960px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  font-family: vars.$font-body;
+  color: vars.$color-light;
+
+  .tournament-heading-index {
+    margin-bottom: 2rem;
+    h2 {
+      font-family: vars.$font-title;
+      color: vars.$color-primary;
+      text-shadow: vars.$glow-primary;
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+
+  .tournament-list-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .tournament-item-index {
+    background: vars.$color-bg;
+    border: 2px solid vars.$color-primary;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: vars.$glow-primary;
+    transition: transform vars.$transition-fast, box-shadow vars.$transition-fast;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: vars.$glow-secondary;
+    }
+
+    h3 {
+      font-family: vars.$font-title;
+      color: vars.$color-secondary;
+      margin-bottom: 0.75rem;
+      text-shadow: vars.$glow-secondary;
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+
+      &.date,
+      &.created {
+        font-weight: bold;
+        color: vars.$color-light;
+      }
+
+      a {
+        @include btn.button-base;
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

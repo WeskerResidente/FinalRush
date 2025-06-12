@@ -1,12 +1,38 @@
+@use '../abstracts/variable'  as v;
+@use '../abstracts/typographies';
+
 .tournament-card {
-  background: #1a1a1a;
-  padding: 1rem;
-  border-radius: 10px;
-  @include glow-border($color-secondary);
-  transition: $transition-fast;
+  background: v.$color-bg, 8%;
+  border: 2px solid v.$color-primary;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform v.$transition-fast, box-shadow v.$transition-fast;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 20px $color-secondary;
+    transform: scale(1.03);
+    box-shadow: v.$glow-primary;
+  }
+
+  .header {
+    background: v.$color-primary;
+    color: #000;
+    padding: 1rem;
+    font-family: v.$font-title;
+    text-align: center;
+  }
+
+  .body {
+    padding: 1rem;
+    color: v.$color-light;
+
+    .date {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .description {
+      font-size: 0.9rem;
+    }
   }
 }

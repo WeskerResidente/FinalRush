@@ -1,4 +1,6 @@
-@use '../abstracts/variable';
+@use '../abstracts/variable' as v;
+@use '../abstracts/typographies' as t;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +8,7 @@
 }
 
 body {
-  background: $color-bg;
-  color: $color-light;
-  font-family: $font-body;
+  background: v.$color-bg;
+  color: v.$color-light;
+  font-family: v.$font-body;
 }

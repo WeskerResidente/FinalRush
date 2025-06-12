@@ -1,11 +1,28 @@
-@use '../abstracts/variable';
+@use '../abstracts/variable' as v;
 
 footer {
+  background: v.$color-bg, 10%;
   text-align: center;
-  padding: 1rem 0;
-  color: #b3a1ff;
-  font-size: 0.9rem;
-  border-top: 1px solid $input-border;
-  margin-top: 3rem;
-  background-color: rgba(20, 0, 20, 0.7);
+  padding: 2rem 0;
+  font-family: v.$font-body;
+  color: v.$color-light;
+  border-top: 1px solid v.$color-primary;
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    a {
+      font-size: 1.2rem;
+      color: v.$color-secondary;
+      transition: color v.$transition-fast;
+
+      &:hover {
+        color: v.$color-primary;
+        text-shadow: v.$glow-primary;
+      }
+    }
+  }
 }

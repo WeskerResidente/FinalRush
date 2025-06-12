@@ -1,17 +1,38 @@
 @use '../abstracts/variable';
 @use '../abstracts/typographies';
 
-h1, h2, h3 {
+// base/_reset.scss
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// base/_typography.scss
+html {
+  font-size: 16px;
+}
+
+body {
+  background: $color-bg;
+  color: $color-light;
+  font-family: $font-body;
+  line-height: 1.6;
+  transition: background $transition-fast, color $transition-fast;
+}
+
+h1, h2, h3, h4, h5 {
   font-family: $font-title;
-  @include neon-text($color-primary);
+  color: $color-primary;
+  text-shadow: $glow-primary;
 }
 
-a {
-  color: $color-secondary;
-  text-decoration: none;
-  transition: $transition-fast;
-
-  &:hover {
-    @include neon-text($color-secondary);
-  }
-}
+// base/_utilities.scss
+.text-center { text-align: center !important; }
+.flex        { display: flex !important; }
+.grid        { display: grid !important; }
+.u-mb-1      { margin-bottom: 1rem !important; }
+.u-pa-1      { padding: 1rem !important; }
+.hidden      { display: none !important; }
