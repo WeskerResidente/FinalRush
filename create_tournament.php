@@ -13,13 +13,20 @@ if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['da
     $name = htmlspecialchars($_POST['name']);
     $desc = htmlspecialchars($_POST['description']);
     $date = htmlspecialchars($_POST['date']);
+    $gameId = (int) ($_POST['game_id'] ?? 0);
     $formatedDate = date('Y-m-d H:i:s', strtotime($date));
     $createdAt = date('Y-m-d H:i:s');
     $maxPlayers = (int) $_POST['max_players'];
     $requestCreate = $bdd->prepare('INSERT INTO tournaments(name,description,start_date,created_at, max_players)
                                                 VALUES(?,?,?,?,?)');
     $dataCreate = $requestCreate->execute(array($name,$desc,$formatedDate,$createdAt, $maxPlayers));
-
+    $requestCreate = $bdd->prepare(
+  'INSERT INTO tournaments(name, description, start_date, created_at, max_players, game_id)
+   VALUES(?,?,?,?,?,?)'
+  );
+  $requestCreate->execute([
+  $name, $desc, $formatedDate, $createdAt, $maxPlayers, $gameId
+  ]);
 
     // header('location:Index.php.php');
     if ($dataCreate) {
@@ -30,6 +37,7 @@ if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['da
   }
 // récupération des utilisateurs afin de pouvoir les afficher et les rajouter dans la table des tournois
 $requestSelect = $bdd->prepare('SELECT * FROM users');
+$games = $bdd->query("SELECT id,name FROM games ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -64,6 +72,14 @@ $requestSelect = $bdd->prepare('SELECT * FROM users');
       <label for="name">Nom du tournoi :</label>
       <input type="text" id="name" name="name" required>
     </div>
+    <div class="form-item-create-tournament">
+      <label for="game_id">Jeu :</label>
+      <select name="game_id" id="game_id" required>
+        <?php foreach($games as $g): ?>
+          <option value="<?= $g['id'] ?>"><?= htmlspecialchars($g['name']) ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
 
     <div class="form-item-create-tournament">
       <label for="description">Ajouter la description :</label>
@@ -79,6 +95,7 @@ $requestSelect = $bdd->prepare('SELECT * FROM users');
     <div class="form-submit-create-tournament">
       <button type="submit">Créer</button>
     </div>
+
   </form>
 </section>
 </body>

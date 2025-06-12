@@ -6,13 +6,20 @@ error_reporting(E_ALL);
 include("essentiel.php");
 include("nav.php");
 
-// Récupérer les 3 derniers tournois
-$requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at DESC LIMIT 3');
-$requestSelect->execute();
-
-// Statistiques rapides
+// 1) Statistiques
 $totalTournois = $bdd->query('SELECT COUNT(*) FROM tournaments')->fetchColumn();
 $totalJoueurs  = $bdd->query('SELECT COUNT(*) FROM users')->fetchColumn();
+
+// 2) Récupérer les 3 derniers tournois avec le nom du jeu
+$stmt = $bdd->prepare("
+  SELECT t.*, g.name AS game_name
+    FROM tournaments t
+    JOIN games g       ON g.id = t.game_id
+   ORDER BY t.created_at DESC
+   LIMIT 3
+");
+$stmt->execute();
+$dernierTournois = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,7 +30,6 @@ $totalJoueurs  = $bdd->query('SELECT COUNT(*) FROM users')->fetchColumn();
   <link rel="stylesheet" href="assets/css/acceuil.css">
 </head>
 <body>
-
 
   <section class="hero">
     <div class="hero-overlay"></div>
@@ -37,11 +43,11 @@ $totalJoueurs  = $bdd->query('SELECT COUNT(*) FROM users')->fetchColumn();
   <!-- Statistiques -->
   <section class="stats">
     <div class="stat-card">
-      <h3><?= htmlspecialchars($totalTournois) ?></h3>
+      <h3><?= htmlspecialchars($totalTournois, ENT_QUOTES) ?></h3>
       <p>Tournois créés</p>
     </div>
     <div class="stat-card">
-      <h3><?= htmlspecialchars($totalJoueurs) ?></h3>
+      <h3><?= htmlspecialchars($totalJoueurs, ENT_QUOTES) ?></h3>
       <p>Joueurs inscrits</p>
     </div>
   </section>
@@ -53,14 +59,22 @@ $totalJoueurs  = $bdd->query('SELECT COUNT(*) FROM users')->fetchColumn();
       <a href="tournaments.php" class="btn btn-secondary">Voir plus</a>
     </div>
     <div class="tournament-list">
-      <?php while ($t = $requestSelect->fetch()): ?>
-        <div class="tournament-card">
-          <h3><?= htmlspecialchars($t['name']) ?></h3>
-          <p class="desc"><?= htmlspecialchars($t['description']) ?></p>
-          <p class="date"><strong>Début :</strong> <?= htmlspecialchars($t['start_date']) ?></p>
-          <a href="tournaments.php#tournamentID-<?= $t['id'] ?>" class="btn btn-tertiary">Détails</a>
+      <?php foreach ($dernierTournois as $t): ?>
+        <div class="tournament-card" id="tournamentID-<?= $t['id'] ?>">
+          <h3>
+            <?= htmlspecialchars($t['name'], ENT_QUOTES) ?>
+            <small>(<?= htmlspecialchars($t['game_name'], ENT_QUOTES) ?>)</small>
+          </h3>
+          <p class="desc"><?= htmlspecialchars($t['description'], ENT_QUOTES) ?></p>
+          <p class="date">
+            <strong>Début :</strong>
+            <?= htmlspecialchars($t['start_date'], ENT_QUOTES) ?>
+          </p>
+          <a href="registerTournament.php?id=<?= $t['id'] ?>" class="btn btn-tertiary">
+            Participer
+          </a>
         </div>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </div>
   </section>
 

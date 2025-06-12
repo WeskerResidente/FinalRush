@@ -10,16 +10,19 @@ if ($tournamentId <= 0) {
 }
 
 // 2) Charger les infos du tournoi
-$stmtT = $bdd->prepare('
-  SELECT name, start_date, max_players
-    FROM tournaments
-   WHERE id = ?
-');
+$stmtT = $bdd->prepare("
+  SELECT 
+    t.name, 
+    t.start_date, 
+    t.max_players, 
+    g.name AS game_name
+  FROM tournaments t
+  JOIN games g ON g.id = t.game_id
+  WHERE t.id = ?
+");
 $stmtT->execute([$tournamentId]);
-$tourney = $stmtT->fetch(PDO::FETCH_ASSOC);
-if ($tourney === false) {
-    die("Tournoi introuvable pour l’ID {$tournamentId}.");
-}
+$tourney = $stmtT->fetch(PDO::FETCH_ASSOC)
+          ?: die("Tournoi introuvable.");
 
 // 3) Compter les inscrits
 $stmtCount = $bdd->prepare('
@@ -78,12 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 <body>
   <section class="page-register-tournament">
     <h2>
-      Inscription au tournoi « <?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?> »
+    Inscription au tournoi
+    « <?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?> »
+    <small>(<?= htmlspecialchars($tourney['game_name'], ENT_QUOTES) ?>)</small>
     </h2>
-    <p>
-      Date de début : 
-      <?= htmlspecialchars($tourney['start_date'], ENT_QUOTES) ?>
-    </p>
+    <p>Date de début : <?= htmlspecialchars($tourney['start_date'], ENT_QUOTES) ?></p>
     <p>
       Places : <?= $currentCount ?>/<?= $tourney['max_players'] ?>
     </p>

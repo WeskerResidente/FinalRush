@@ -1,124 +1,163 @@
+// assets/scss/components/_admin-panel.scss
+
 @use "../abstracts/variable" as vars;
-@use "../components/buttons"   as btn;
 
 .admin-panel {
-  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   font-family: vars.$font-body;
   color: vars.$color-light;
-  background: vars.$color-bg;
 
-  h1 {
-    font-family: vars.$font-title;
-    color: vars.$color-secondary;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    text-shadow: vars.$glow-secondary;
-  }
+  section {
+    margin-bottom: 3rem;
 
-  table {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 2rem;
-    border-collapse: collapse;
-    background: darken(vars.$color-bg, 5%);
-
-    th, td {
-      padding: 0.75rem 1rem;
-      border: 1px solid vars.$color-light;
-      text-align: left;
+    h2 {
+      font-family: vars.$font-title;
+      color: vars.$color-secondary;
+      text-shadow: vars.$glow-secondary;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
 
-    thead {
-      background: vars.$color-primary;
-      th {
-        color: #000;
-      }
-    }
+    // Table générique pour Utilisateurs & Tournois
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
 
-    tbody tr {
-      &:nth-child(even) {
-        background: lighten(vars.$color-bg, 5%);
+      th, td {
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255,255,255,0.2);
+        text-align: left;
+        font-size: 0.95rem;
       }
-      &:hover {
-        background: vars.$color-primary ;
-        td {
-          color: #000;
+
+      thead {
+        background: rgba(255,255,255,0.05);
+      }
+
+      tbody tr:nth-child(odd) {
+        background: rgba(255,255,255,0.03);
+      }
+
+      a.delete {
+        display: inline-block;
+        width: 1.8rem;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        text-align: center;
+        background: vars.$color-accent;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background vars.$transition-fast, box-shadow vars.$transition-fast;
+        font-size: 1rem;
+
+        &:hover {
+          background: darken(vars.$color-accent, 10%);
+          box-shadow: 0 0 6px vars.$color-accent;
         }
       }
     }
 
-    ul {
+    // Pagination partagée
+    .pagination {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+
+      a {
+        margin: 0 0.5rem;
+        color: vars.$color-primary;
+        text-decoration: none;
+        transition: color vars.$transition-fast;
+
+        &:hover {
+          color: lighten(vars.$color-primary, 10%);
+        }
+      }
+    }
+
+    // Formulaire inline (pour Games)
+    .form-inline {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      input[type="text"] {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        border: 2px solid vars.$color-light;
+        border-radius: 4px;
+        background: vars.$color-bg;
+        color: vars.$color-light;
+        font-size: 1rem;
+        transition: border-color vars.$transition-fast, box-shadow vars.$transition-fast;
+
+        &:focus {
+          outline: none;
+          border-color: vars.$color-primary;
+          box-shadow: vars.$glow-primary;
+        }
+      }
+
+      button {
+        background: vars.$color-primary;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 0 8px vars.$color-primary;
+        transition: background vars.$transition-fast, box-shadow vars.$transition-fast;
+
+        &:hover {
+          background: lighten(vars.$color-primary, 10%);
+          box-shadow: 0 0 12px vars.$color-primary;
+        }
+
+        &:active {
+          box-shadow: 0 0 4px vars.$color-primary;
+        }
+      }
+    }
+
+    // Liste de jeux
+    .game-list {
+      list-style: none;
+      padding: 0;
       margin: 0;
-      padding: 0 0 0 1.25rem;
-      list-style: disc;
+
       li {
-        margin-bottom: 0.25rem;
-        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 4px;
+        font-size: 1rem;
+
+        a.delete {
+          background: vars.$color-accent;
+          color: #fff;
+          width: 1.8rem;
+          height: 1.8rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          text-decoration: none;
+          transition: background vars.$transition-fast, box-shadow vars.$transition-fast;
+
+          &:hover {
+            background: darken(vars.$color-accent, 10%);
+            box-shadow: 0 0 6px vars.$color-accent;
+          }
+        }
       }
-    }
-  }
-
-  .delete {
-    @include btn.button-base;
-    background: vars.$color-accent;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.9rem;
-    line-height: 1;
-    text-decoration: none;
-    margin-left: 0.5rem;
-
-    &:hover {
-      box-shadow: vars.$glow-primary;
-      background: darken(vars.$color-accent, 10%);
-    }
-  }
-
-  .controls {
-    text-align: center;
-    margin-bottom: 2rem;
-
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-right: 1rem;
-      border: 2px solid vars.$color-light;
-      border-radius: 4px;
-      background: vars.$color-bg;
-      color: vars.$color-light;
-      transition: border-color vars.$transition-fast;
-
-      &:focus {
-        border-color: vars.$color-primary;
-        outline: none;
-      }
-    }
-
-    button {
-      @include btn.button-base;
-      margin: 0 0.5rem;
-    }
-  }
-
-  .pagination {
-    text-align: center;
-    margin: 2rem 0;
-
-    a {
-      @include btn.button-base;
-      display: inline-block;
-      margin: 0 0.5rem;
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-
-      &:hover {
-        box-shadow: vars.$glow-secondary;
-      }
-    }
-
-    span {
-      display: inline-block;
-      margin: 0 0.5rem;
-      font-weight: bold;
     }
   }
 }

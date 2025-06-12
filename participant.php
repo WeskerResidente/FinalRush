@@ -13,16 +13,16 @@ if ($tourneyId <= 0) {
 
 // 1) Charger le tournoi
 $stmt = $bdd->prepare("
-  SELECT name, is_closed, max_players
-    FROM tournaments
-   WHERE id = ?
+  SELECT t.name, t.is_closed, t.max_players, g.name AS game_name
+    FROM tournaments t
+    JOIN games      g ON g.id = t.game_id
+   WHERE t.id = ?
 ");
 $stmt->execute([$tourneyId]);
-$tourney = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$tourney) {
-    die("Tournoi introuvable.");
-}
-$locked     = (bool)$tourney['is_closed'];
+$tourney = $stmt->fetch(PDO::FETCH_ASSOC)
+          ?: die("Tournoi introuvable.");
+
+$locked    = (bool)$tourney['is_closed'];
 $maxPlayers = (int)$tourney['max_players'];
 
 // 2) Compter les inscrits + places restantes
@@ -230,7 +230,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
       <?php endif; ?>
     </p>
 
-    <h1><?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?></h1>
+  <h1>
+    <?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?> 
+    <small>— <?= htmlspecialchars($tourney['game_name'], ENT_QUOTES) ?></small>
+  </h1>
+    
     <?php if ($champion): ?>
       <h2 class="champion">🏆 <?= htmlspecialchars($champion, ENT_QUOTES) ?></h2>
     <?php endif; ?>

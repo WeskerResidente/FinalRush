@@ -738,7 +738,8 @@ main .champion {
 .form-create-tournament .form-item-create-tournament input[type=text],
 .form-create-tournament .form-item-create-tournament input[type=number],
 .form-create-tournament .form-item-create-tournament textarea,
-.form-create-tournament .form-item-create-tournament input[type=datetime-local] {
+.form-create-tournament .form-item-create-tournament input[type=datetime-local],
+.form-create-tournament .form-item-create-tournament select {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #d9d9d9;
@@ -748,26 +749,28 @@ main .champion {
   font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
   font-size: 1rem;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
 }
 .form-create-tournament .form-item-create-tournament input[type=text]::placeholder,
 .form-create-tournament .form-item-create-tournament input[type=number]::placeholder,
 .form-create-tournament .form-item-create-tournament textarea::placeholder,
-.form-create-tournament .form-item-create-tournament input[type=datetime-local]::placeholder {
+.form-create-tournament .form-item-create-tournament input[type=datetime-local]::placeholder,
+.form-create-tournament .form-item-create-tournament select::placeholder {
   color: #d9d9d9;
   opacity: 0.6;
 }
 .form-create-tournament .form-item-create-tournament input[type=text]:focus,
 .form-create-tournament .form-item-create-tournament input[type=number]:focus,
 .form-create-tournament .form-item-create-tournament textarea:focus,
-.form-create-tournament .form-item-create-tournament input[type=datetime-local]:focus {
+.form-create-tournament .form-item-create-tournament input[type=datetime-local]:focus,
+.form-create-tournament .form-item-create-tournament select:focus {
   outline: none;
   border-color: #8f00ff;
   box-shadow: 0 0 10px #8f00ff;
 }
 .form-create-tournament .form-item-create-tournament input[type=datetime-local] {
   padding-right: 2.5rem;
-  appearance: auto;
-  -webkit-appearance: auto;
 }
 .form-create-tournament .form-item-create-tournament input[type=datetime-local]::-webkit-calendar-picker-indicator {
   position: absolute;
@@ -810,161 +813,138 @@ main .champion {
 }
 
 .admin-panel {
-  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
   color: #d9d9d9;
-  background: #0d0d0d;
 }
-.admin-panel h1 {
+.admin-panel section {
+  margin-bottom: 3rem;
+}
+.admin-panel section h2 {
   font-family: "Orbitron", "Audiowide", sans-serif;
   color: #00e5ff;
-  text-align: center;
-  margin-bottom: 1.5rem;
   text-shadow: 0 0 10px #00e5ff;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
-.admin-panel table {
+.admin-panel section table {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 2rem;
   border-collapse: collapse;
-  background: rgb(0.25, 0.25, 0.25);
+  margin-bottom: 1rem;
 }
-.admin-panel table th, .admin-panel table td {
+.admin-panel section table th, .admin-panel section table td {
   padding: 0.75rem 1rem;
-  border: 1px solid #d9d9d9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: left;
+  font-size: 0.95rem;
 }
-.admin-panel table thead {
-  background: #8f00ff;
+.admin-panel section table thead {
+  background: rgba(255, 255, 255, 0.05);
 }
-.admin-panel table thead th {
-  color: #000;
+.admin-panel section table tbody tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.03);
 }
-.admin-panel table tbody tr:nth-child(even) {
-  background: rgb(25.75, 25.75, 25.75);
-}
-.admin-panel table tbody tr:hover {
-  background: #8f00ff;
-}
-.admin-panel table tbody tr:hover td {
-  color: #000;
-}
-.admin-panel table ul {
-  margin: 0;
-  padding: 0 0 0 1.25rem;
-  list-style: disc;
-}
-.admin-panel table ul li {
-  margin-bottom: 0.25rem;
-  position: relative;
-}
-.admin-panel .delete {
+.admin-panel section table a.delete {
   display: inline-block;
-  background: #8f00ff;
-  color: #000;
-  font-family: "Orbitron", "Audiowide", sans-serif;
-  padding: 0.8rem 1.6rem;
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 0 10px #8f00ff;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  background: #ff003c;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  text-decoration: none;
-  margin-left: 0.5rem;
-}
-.admin-panel .delete:hover:not(:disabled) {
-  background: #00e5ff;
-  box-shadow: 0 0 10px #00e5ff;
-}
-.admin-panel .delete:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.admin-panel .delete:hover {
-  box-shadow: 0 0 10px #8f00ff;
-  background: #cc0030;
-}
-.admin-panel .controls {
+  width: 1.8rem;
+  height: 1.8rem;
+  line-height: 1.8rem;
   text-align: center;
-  margin-bottom: 2rem;
-}
-.admin-panel .controls select {
-  padding: 0.5rem;
+  background: #ff003c;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   font-size: 1rem;
-  margin-right: 1rem;
+}
+.admin-panel section table a.delete:hover {
+  background: #cc0030;
+  box-shadow: 0 0 6px #ff003c;
+}
+.admin-panel section .pagination {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+.admin-panel section .pagination a {
+  margin: 0 0.5rem;
+  color: #8f00ff;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+.admin-panel section .pagination a:hover {
+  color: rgb(165.4, 51, 255);
+}
+.admin-panel section .form-inline {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.admin-panel section .form-inline input[type=text] {
+  flex: 1;
+  padding: 0.6rem 1rem;
   border: 2px solid #d9d9d9;
   border-radius: 4px;
   background: #0d0d0d;
   color: #d9d9d9;
-  transition: border-color 0.2s ease-in-out;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-.admin-panel .controls select:focus {
-  border-color: #8f00ff;
+.admin-panel section .form-inline input[type=text]:focus {
   outline: none;
+  border-color: #8f00ff;
+  box-shadow: 0 0 10px #8f00ff;
 }
-.admin-panel .controls button {
-  display: inline-block;
+.admin-panel section .form-inline button {
   background: #8f00ff;
-  color: #000;
-  font-family: "Orbitron", "Audiowide", sans-serif;
-  padding: 0.8rem 1.6rem;
+  color: #fff;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 0 10px #8f00ff;
-  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0 0 8px #8f00ff;
   transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  margin: 0 0.5rem;
 }
-.admin-panel .controls button:hover:not(:disabled) {
-  background: #00e5ff;
-  box-shadow: 0 0 10px #00e5ff;
+.admin-panel section .form-inline button:hover {
+  background: rgb(165.4, 51, 255);
+  box-shadow: 0 0 12px #8f00ff;
 }
-.admin-panel .controls button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.admin-panel section .form-inline button:active {
+  box-shadow: 0 0 4px #8f00ff;
 }
-.admin-panel .pagination {
-  text-align: center;
-  margin: 2rem 0;
+.admin-panel section .game-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.admin-panel .pagination a {
-  display: inline-block;
-  background: #8f00ff;
-  color: #000;
-  font-family: "Orbitron", "Audiowide", sans-serif;
-  padding: 0.8rem 1.6rem;
-  border: none;
+.admin-panel section .game-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
-  box-shadow: 0 0 10px #8f00ff;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  display: inline-block;
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+.admin-panel section .game-list li a.delete {
+  background: #ff003c;
+  color: #fff;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
   text-decoration: none;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-.admin-panel .pagination a:hover:not(:disabled) {
-  background: #00e5ff;
-  box-shadow: 0 0 10px #00e5ff;
-}
-.admin-panel .pagination a:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.admin-panel .pagination a:hover {
-  box-shadow: 0 0 10px #00e5ff;
-}
-.admin-panel .pagination span {
-  display: inline-block;
-  margin: 0 0.5rem;
-  font-weight: bold;
+.admin-panel section .game-list li a.delete:hover {
+  background: #cc0030;
+  box-shadow: 0 0 6px #ff003c;
 }
 
 .my-tournaments {
