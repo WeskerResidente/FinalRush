@@ -110,6 +110,18 @@ body {
   font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
 }
 
+.nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.nav-avatar img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
 .tournament-card {
   background: #0d0d0d, 8%;
   border: 2px solid #8f00ff;
