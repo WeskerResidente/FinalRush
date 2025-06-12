@@ -130,16 +130,6 @@ main {
           opacity: 1;
           cursor: default;
         }
-
-        &::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 0.5rem;
-          height: 100%;
-          background: vars.$color-accent;
-        }
       }
 
       .connector {
@@ -149,16 +139,6 @@ main {
         align-self: center;
       }
 
-      // Ligne verticale pour les rondes suivantes
-      &::before {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        width: 2px;
-        height: 1.5rem;
-        background: vars.$color-light;
-      }
     }
   }
 }

@@ -1,0 +1,124 @@
+@use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
+
+.admin-panel {
+  padding: 2rem;
+  font-family: vars.$font-body;
+  color: vars.$color-light;
+  background: vars.$color-bg;
+
+  h1 {
+    font-family: vars.$font-title;
+    color: vars.$color-secondary;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: vars.$glow-secondary;
+  }
+
+  table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    border-collapse: collapse;
+    background: darken(vars.$color-bg, 5%);
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border: 1px solid vars.$color-light;
+      text-align: left;
+    }
+
+    thead {
+      background: vars.$color-primary;
+      th {
+        color: #000;
+      }
+    }
+
+    tbody tr {
+      &:nth-child(even) {
+        background: lighten(vars.$color-bg, 5%);
+      }
+      &:hover {
+        background: vars.$color-primary ;
+        td {
+          color: #000;
+        }
+      }
+    }
+
+    ul {
+      margin: 0;
+      padding: 0 0 0 1.25rem;
+      list-style: disc;
+      li {
+        margin-bottom: 0.25rem;
+        position: relative;
+      }
+    }
+  }
+
+  .delete {
+    @include btn.button-base;
+    background: vars.$color-accent;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-decoration: none;
+    margin-left: 0.5rem;
+
+    &:hover {
+      box-shadow: vars.$glow-primary;
+      background: darken(vars.$color-accent, 10%);
+    }
+  }
+
+  .controls {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-right: 1rem;
+      border: 2px solid vars.$color-light;
+      border-radius: 4px;
+      background: vars.$color-bg;
+      color: vars.$color-light;
+      transition: border-color vars.$transition-fast;
+
+      &:focus {
+        border-color: vars.$color-primary;
+        outline: none;
+      }
+    }
+
+    button {
+      @include btn.button-base;
+      margin: 0 0.5rem;
+    }
+  }
+
+  .pagination {
+    text-align: center;
+    margin: 2rem 0;
+
+    a {
+      @include btn.button-base;
+      display: inline-block;
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+
+      &:hover {
+        box-shadow: vars.$glow-secondary;
+      }
+    }
+
+    span {
+      display: inline-block;
+      margin: 0 0.5rem;
+      font-weight: bold;
+    }
+  }
+}

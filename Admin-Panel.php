@@ -22,7 +22,9 @@ $stmt->execute();
 $users = $stmt->fetchAll();
 
 // Pagination tournois
-$tournoisPerPage = 5;
+
+$tournoisPerPage = 6;
+
 $pageTournoi = isset($_GET['page_tournoi']) ? max(1, intval($_GET['page_tournoi'])) : 1;
 $offsetTournoi = ($pageTournoi - 1) * $tournoisPerPage;
 
@@ -98,6 +100,7 @@ if (isset($_GET['remove_participant']) && isset($_GET['tournament'])) {
 </head>
 <body>
     <?php include("nav.php"); ?>
+  <div class="admin-panel">
     <h1>Liste des utilisateurs</h1>
     <table>
         <thead>
@@ -193,5 +196,6 @@ if (isset($_GET['remove_participant']) && isset($_GET['tournament'])) {
             <?php endif; ?>
         </div>
     <?php endif; ?>
+    </div>
 </body>
 </html>
