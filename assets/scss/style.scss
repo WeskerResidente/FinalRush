@@ -1,28 +1,29 @@
 // 1. Variables + typo
-@import 'abstracts/variable';
-@import 'abstracts/typographies';
+@use 'abstracts/variable';
+@use 'abstracts/typographies';
 
 // 2. Base globale
-@import 'base/base';
-@import 'base/utilities';
+@use 'base/base';
+@use 'base/utilities';
 
 // 3. Layout (header, footer)
-@import 'layout/header';
-@import 'layout/footer';
+@use 'layout/header';
+@use 'layout/footer';
 
 // 4. Composants
-@import 'components/buttons';
-@import 'components/navbar';
+@use 'components/buttons';
+@use 'components/navbar';
+@use 'components/tournament-card';
 
 // 5. Pages / Sections
-@import 'pages/acceuil';
-@import 'pages/bestiaires';
-@import 'pages/inscription';
-@import 'pages/connexion';
-@import 'pages/ajoutbestiaire';
-@import 'pages/modifier-monstre';
-@import 'pages/panneau_admin';
-@import 'pages/suppresion_monstre';
-@import 'pages/codex';
+@use 'pages/acceuil';
+@use 'pages/bestiaires';
+@use 'pages/inscription';
+@use 'pages/connexion';
+@use 'pages/ajoutbestiaire';
+@use 'pages/modifier-monstre';
+@use 'pages/panneau_admin';
+@use 'pages/suppresion_monstre';
+@use 'pages/codex';
 
 

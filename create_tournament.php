@@ -2,6 +2,11 @@
 include("essentiel.php");
 include("security.php");
 include("nav.php");
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Refresh:2; url=index.php");
+    die("Accès interdit. Redirection vers la page d'accueil dans 2 secondes.");
+}
 // on définit l'heure par défaut pour la création du tournoi a l'heure locale de paris 
 date_default_timezone_set('Europe/Paris');
 if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['date'])) {

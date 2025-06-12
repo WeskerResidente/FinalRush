@@ -1,11 +1,10 @@
-@mixin center-block {
-  margin-left: auto;
-  margin-right: auto;
+@use '../abstracts/variable' as v;
+@mixin neon-text($color) {
+  color: v.$color;
+  text-shadow: 0 0 5px v.$color, 0 0 10px v.$color;
 }
 
-
-@mixin rounded($radius: 0.5rem) {
-  border-radius: $radius;
+@mixin glow-border($color) {
+  border: 1px solid v.$color;
+  box-shadow: 0 0 10px v.$color;
 }
-
-

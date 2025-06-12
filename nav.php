@@ -1,7 +1,4 @@
-<?php 
-$connexion = $_SERVER['PHP_SELF'];
-echo $connexion;
-?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
