@@ -2,36 +2,68 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 include("essentiel.php");
 include("nav.php");
-?>
-<?php 
+
+// Récupérer les 3 derniers tournois
 $requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at DESC LIMIT 3');
 $requestSelect->execute();
+
+// Statistiques rapides
+$totalTournois = $bdd->query('SELECT COUNT(*) FROM tournaments')->fetchColumn();
+$totalJoueurs  = $bdd->query('SELECT COUNT(*) FROM users')->fetchColumn();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
+  <meta charset="UTF-8">
+  <title>Accueil — FinalRush</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/acceuil.css">
 </head>
 <body>
-    <section id="tournament-index">
-        <div class="tournament-heading-index">
-            <h2>Listes des dernier tournois ayant été ajouté :</h2>
+
+
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Bienvenue sur FinalRush</h1>
+      <p>Le hub ultime pour vos tournois e-sport en ligne</p>
+      <a href="tournaments.php" class="btn btn-primary">Voir tous les tournois</a>
+    </div>
+  </section>
+
+  <!-- Statistiques -->
+  <section class="stats">
+    <div class="stat-card">
+      <h3><?= htmlspecialchars($totalTournois) ?></h3>
+      <p>Tournois créés</p>
+    </div>
+    <div class="stat-card">
+      <h3><?= htmlspecialchars($totalJoueurs) ?></h3>
+      <p>Joueurs inscrits</p>
+    </div>
+  </section>
+
+  <!-- Derniers tournois -->
+  <section class="tournament-index">
+    <div class="section-header">
+      <h2>Derniers tournois ajoutés</h2>
+      <a href="tournaments.php" class="btn btn-secondary">Voir plus</a>
+    </div>
+    <div class="tournament-list">
+      <?php while ($t = $requestSelect->fetch()): ?>
+        <div class="tournament-card">
+          <h3><?= htmlspecialchars($t['name']) ?></h3>
+          <p class="desc"><?= htmlspecialchars($t['description']) ?></p>
+          <p class="date"><strong>Début :</strong> <?= htmlspecialchars($t['start_date']) ?></p>
+          <a href="tournaments.php#tournamentID-<?= $t['id'] ?>" class="btn btn-tertiary">Détails</a>
         </div>
-        <div class="tournament-list-index">
-            <?php while ($tournament = $requestSelect->fetch()): ?>
-                <div class="tournament-item-index">
-                    <h3><?= htmlspecialchars($tournament['name']) ?></h3>
-                    <p><?= htmlspecialchars($tournament['description']) ?></p>
-                    <p>Date de début : <?= htmlspecialchars($tournament['start_date']) ?></p>
-                    <p>Créé le : <?= htmlspecialchars($tournament['created_at']) ?></p>
-                    <a href="tournaments.php#tournamentID-<?= $tournament['id'] ?>">Voir les détails</a>
-                </div>
-            <?php endwhile; ?>
-        </div>
-    </section>
+      <?php endwhile; ?>
+    </div>
+  </section>
+
+  <?php include("footer.php"); ?>
 </body>
 </html>

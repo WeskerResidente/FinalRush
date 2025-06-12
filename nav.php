@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <title>Tournois Esport</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Assure-toi que c'est bien compilé depuis ton main.scss -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <header class="navbar">
     <div class="logo">
-      <a href="index.php">FinalRush</a>
+      <a href="index.php">
+        <img src="assets/img/logo.png" alt="FinalRush" class="logo-img">
+        <p class="logo-text">FinalRush</p>
+      </a>
     </div>
 
     <ul class="nav-links">

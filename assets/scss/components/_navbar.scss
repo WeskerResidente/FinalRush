@@ -1,30 +1,31 @@
-// components/_navbar.scss
-
 @use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  justify-content: space-between;
   background: vars.$color-bg;
+  padding: 1rem 2rem;
   border-bottom: 2px solid vars.$color-primary;
-  box-shadow: vars.$glow-primary;
-  font-family: vars.$font-body;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 
   .logo {
-    font-family: vars.$font-title;
-    font-size: 1.5rem;
-    color: vars.$color-primary;
-    text-shadow: vars.$glow-primary;
-    transition: color vars.$transition-fast;
-
     a {
-      color: inherit;
+      display: flex;
+      align-items: center;
       text-decoration: none;
+      color: vars.$color-light;
 
-      &:hover {
-        color: vars.$color-secondary;
+      .logo-img {
+        height: 40px;
+        margin-right: 0.75rem;
+        filter: drop-shadow(vars.$glow-primary);
+      }
+
+      a {
+        font-family: vars.$font-title;
+        font-size: 1.5rem;
         text-shadow: vars.$glow-secondary;
       }
     }
@@ -32,30 +33,38 @@
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
 
     li {
-      position: relative;
-
       a {
+        position: relative;
+        font-family: vars.$font-body;
         color: vars.$color-light;
-        font-weight: bold;
-        text-decoration: none; 
+        text-decoration: none;
+        padding: 0.5rem;
         transition: color vars.$transition-fast;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -4px;
+          width: 100%;
+          height: 2px;
+          background: vars.$color-secondary;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform vars.$transition-fast;
+        }
 
         &:hover {
           color: vars.$color-secondary;
 
           &::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: vars.$color-secondary;
-            box-shadow: vars.$glow-secondary;
+            transform: scaleX(1);
           }
         }
       }
@@ -66,17 +75,14 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    a {
-        text-decoration: none; 
-        transition: color vars.$transition-fast;
-    }
-    .button {
-      @extend .button; // reprend le style défini dans components/_buttons.scss
-    }
 
     span {
-      color: vars.$color-light;
       font-family: vars.$font-body;
+      color: vars.$color-light;
+    }
+
+    .button {
+      @include btn.button-base;
     }
   }
 }

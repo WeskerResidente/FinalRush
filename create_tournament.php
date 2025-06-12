@@ -9,21 +9,24 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 // on définit l'heure par défaut pour la création du tournoi a l'heure locale de paris 
 date_default_timezone_set('Europe/Paris');
-if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['date'])) {
+if (!empty($_POST['name']) && !empty($_POST['description']) && !empty($_POST['date']) && !empty($_POST['max_players'])) {
     $name = htmlspecialchars($_POST['name']);
     $desc = htmlspecialchars($_POST['description']);
     $date = htmlspecialchars($_POST['date']);
     $formatedDate = date('Y-m-d H:i:s', strtotime($date));
     $createdAt = date('Y-m-d H:i:s');
-    echo $formatedDate;
-    var_dump($formatedDate);
-    $requestCreate = $bdd->prepare('INSERT INTO tournaments(name,description,start_date,created_at)
-                                                VALUES(?,?,?,?)');
-    $dataCreate = $requestCreate->execute(array($name,$desc,$formatedDate,$createdAt));
+    $maxPlayers = (int) $_POST['max_players'];
+    $requestCreate = $bdd->prepare('INSERT INTO tournaments(name,description,start_date,created_at, max_players)
+                                                VALUES(?,?,?,?,?)');
+    $dataCreate = $requestCreate->execute(array($name,$desc,$formatedDate,$createdAt, $maxPlayers));
 
 
     // header('location:Index.php.php');
-    echo "tournois ajouté avec succès";
+    if ($dataCreate) {
+    $messageSuccess = "Tournoi ajouté avec succès !";
+    } else {
+        $messageError   = "Erreur lors de la création du tournoi.";
+    }
   }
 // récupération des utilisateurs afin de pouvoir les afficher et les rajouter dans la table des tournois
 $requestSelect = $bdd->prepare('SELECT * FROM users');
@@ -37,9 +40,26 @@ $requestSelect = $bdd->prepare('SELECT * FROM users');
     <title>Document</title>
 </head>
 <body>
+    <?php if (!empty($messageError)): ?>
+    <div class="message erreur"><?= htmlspecialchars($messageError) ?></div>
+  <?php endif; ?>
+  <?php if (!empty($messageSuccess)): ?>
+    <div class="message succes"><?= htmlspecialchars($messageSuccess) ?></div>
+  <?php endif; ?>
 <section class="form-create-tournament">
   <h2>Créer un tournoi</h2>
   <form action="create_tournament.php" method="post">
+    <div class="form-item-create-tournament">
+      <label for="max_players">Nombre max de joueurs :</label>
+      <input
+        type="number"
+        id="max_players"
+        name="max_players"
+        min="2"
+        max="128"
+        value="8"
+        required>
+    </div>
     <div class="form-item-create-tournament">
       <label for="name">Nom du tournoi :</label>
       <input type="text" id="name" name="name" required>
