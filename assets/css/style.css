@@ -959,6 +959,116 @@ main .champion {
   box-shadow: 0 0 6px #ff003c;
 }
 
+.page-profile {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #0d0d0d;
+  color: #d9d9d9;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #8f00ff;
+}
+.page-profile h1, .page-profile h2 {
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  color: #8f00ff;
+  text-align: center;
+  text-shadow: 0 0 10px #00e5ff;
+  margin-bottom: 1rem;
+}
+.page-profile .avatar-preview {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.page-profile .avatar-preview img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00e5ff;
+  box-shadow: 0 0 8px 0 0 10px #00e5ff;
+}
+.page-profile form {
+  margin-bottom: 1.5rem;
+}
+.page-profile form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #d9d9d9;
+}
+.page-profile form input[type=text],
+.page-profile form input[type=color],
+.page-profile form input[type=file] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+  background: #0d0d0d;
+  color: #d9d9d9;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.page-profile form input[type=text]:focus,
+.page-profile form input[type=color]:focus,
+.page-profile form input[type=file]:focus {
+  outline: none;
+  border-color: #8f00ff;
+  box-shadow: 0 0 10px #8f00ff;
+}
+.page-profile form .btn-profile {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+.page-profile form .btn-profile:hover:not(:disabled) {
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+}
+.page-profile form .btn-profile:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.page-profile .message {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.page-profile .message.succes {
+  background: #39ff14;
+  color: #000;
+  padding: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #39ff14;
+}
+.page-profile .message.erreur {
+  background: #ff003c;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ff003c;
+}
+.page-profile .danger {
+  text-align: center;
+  margin-top: 2rem;
+}
+.page-profile .danger .btn-profile {
+  background: #ff003c;
+  color: #fff;
+}
+.page-profile .danger .btn-profile:hover {
+  box-shadow: 0 0 8px #ff003c;
+}
+
 .my-tournaments {
   padding: 2rem;
   max-width: 800px;

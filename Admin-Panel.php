@@ -99,6 +99,7 @@ $games = $bdd->query("SELECT id, name FROM games ORDER BY name ASC")
 </head>
 <body>
 
+
   <div class="admin-panel">
 
     <!-- Utilisateurs -->

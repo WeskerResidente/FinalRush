@@ -1,14 +1,15 @@
 <?php 
 if (isset($_SESSION['user_id'])) {
   include_once("essentiel.php");
-  $requestSelect = $bdd->prepare('SELECT * 
-                                          FROM users
-                                          WHERE id = ?');
+  $requestSelect = $bdd->prepare('
+    SELECT avatar, color 
+      FROM users 
+     WHERE id = ?
+  ');
   $requestSelect->execute([$_SESSION['user_id']]);
-  $request = $requestSelect->fetch();
+  $request = $requestSelect->fetch(PDO::FETCH_ASSOC) ?: [];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -30,7 +31,7 @@ if (isset($_SESSION['user_id'])) {
       <li><a href="index.php">Accueil</a></li>
       <li><a href="tournaments.php">Tournois</a></li>
 
-      <?php if (isset($_SESSION['user_id'])): ?>
+      <?php if (!empty($_SESSION['user_id'])): ?>
         <?php if ($_SESSION['role'] === 'admin'): ?>
           <li><a href="create_tournament.php">Créer un tournoi</a></li>
           <li><a href="Admin-Panel.php">Panel Admin</a></li>
@@ -43,14 +44,26 @@ if (isset($_SESSION['user_id'])) {
     </ul>
 
     <div class="navbar-user">
-      <?php if (isset($_SESSION['user_id'])): ?>
+      <?php if (!empty($_SESSION['user_id'])): ?>
         <form action="deconexion.php" method="post" style="display:inline">
           <button type="submit" class="button">Déconnexion</button>
         </form>
         <div class="nav-avatars-container">
-          <a href="profile.php"><img src="uploads/avatars/<?= $request['avatar']?>" alt="" class="nav-avatar"></a>
+          <a href="profile.php">
+            <img 
+              src="uploads/avatars/<?= htmlspecialchars($request['avatar']   ?? 'default.png', ENT_QUOTES) ?>" 
+              alt="Avatar" 
+              class="nav-avatar"
+            >
+          </a>
         </div>
-        <span class="username-nav" style="color:<?= $request['color'] ?>;">Bonjour <?= $_SESSION['username'] ?></span>
+        <?php 
+          // si color défini, l'utiliser, sinon couleur par défaut (gris clair)
+          $usernameColor = $request['color'] ?? '#d9d9d9';
+        ?>
+        <span class="username-nav" style="color:<?= htmlspecialchars($usernameColor, ENT_QUOTES) ?>;">
+          Bonjour <?= htmlspecialchars($_SESSION['username'], ENT_QUOTES) ?>
+        </span>
       <?php else: ?>
         <a href="connexion.php" class="button">Connexion</a>
         <span>Bonjour Invité</span>
