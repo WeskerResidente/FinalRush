@@ -1,6 +1,5 @@
 <?php
 include("essentiel.php");
-include("security.php");
 include("nav.php");
 
 $requestSelect = $bdd->prepare('SELECT * FROM tournaments ORDER BY created_at DESC');
@@ -17,9 +16,8 @@ $requestSelect->execute();
 <body>
     <section id="tournament-index">
         <div class="tournament-heading-index">
-            <h2>Listes des dernier tournois ayant été ajouté :</h2>
+            <h2>Listes des tournois :</h2>
         </div>
-        <a href="#tournamentID-6">lien</a>
         <div class="tournament-list-index">
             <?php while ($tournament = $requestSelect->fetch()): ?>
                 <div class="tournament-item-index" id="tournamentID-<?= $tournament['id']?>">
@@ -27,6 +25,7 @@ $requestSelect->execute();
                     <p><?= htmlspecialchars($tournament['description']) ?></p>
                     <p>Date de début : <?= htmlspecialchars($tournament['start_date']) ?></p>
                     <p>Créé le : <?= htmlspecialchars($tournament['created_at']) ?></p>
+                    <a href="registerTournament.php?id=<?= $tournament['id']?>">Participer</a>
                 </div>
             <?php endwhile; ?>
         </div>
