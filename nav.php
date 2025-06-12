@@ -22,7 +22,7 @@
           <li><a href="create_tournament.php">Créer un tournoi</a></li>
           <li><a href="Admin-Panel.php">Panel Admin</a></li>
         <?php endif; ?>
-        <li><a href="my_tournaments.php">Mes tournois</a></li>
+        <li><a href="myTournament.php">Mes tournois</a></li>
       <?php else: ?>
         <li><a href="inscription.php">Inscription</a></li>
       <?php endif; ?>
