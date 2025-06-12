@@ -3,6 +3,29 @@
 @use "../abstracts/variable" as vars;
 @use "../components/buttons"   as btn;
 
+// 1) Messages de feedback
+.message {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  font-family: vars.$font-body;
+
+  &.succes {
+    background: vars.$color-success;
+    color: #000;
+    border: 1px solid lighten(vars.$color-success, 10%);
+    box-shadow: 0 0 8px vars.$color-success;
+  }
+
+  &.erreur {
+    background: vars.$color-accent;
+    color: #fff;
+    border: 1px solid darken(vars.$color-accent, 10%);
+    box-shadow: 0 0 8px vars.$color-accent;
+  }
+}
+
+// 2) Conteneur principal
 .form-create-tournament {
   max-width: 500px;
   margin: 3rem auto;
@@ -13,7 +36,6 @@
   box-shadow: vars.$glow-primary;
   font-family: vars.$font-body;
   color: vars.$color-light;
-  position: relative;
 
   h2 {
     font-family: vars.$font-title;
@@ -22,7 +44,8 @@
     margin-bottom: 1.5rem;
     text-shadow: vars.$glow-secondary;
   }
-
+  
+  // 3) Item de formulaire
   .form-item-create-tournament {
     margin-bottom: 1.5rem;
     position: relative;
@@ -33,13 +56,15 @@
       font-weight: bold;
       color: vars.$color-light;
     }
-
+    
+    // 4) Champs text, number, textarea, datetime-local, select
     input[type="text"],
+    input[type="number"],
     textarea,
-    input[type="datetime-local"] {
+    input[type="datetime-local"],
+    select {
       width: 100%;
       padding: 0.75rem;
-      padding-right: 2.5rem;            // espace pour l’icône
       border: 2px solid vars.$color-light;
       border-radius: 4px;
       background-color: vars.$color-bg;
@@ -48,8 +73,8 @@
       font-size: 1rem;
       transition: border-color vars.$transition-fast,
                   box-shadow  vars.$transition-fast;
-      appearance: textfield;           // restore native picker for WebKit
-      -webkit-appearance: textfield;
+      appearance: none;
+      -webkit-appearance: none;
 
       &::placeholder {
         color: vars.$color-light;
@@ -63,22 +88,26 @@
       }
     }
 
-    // Icône du picker pour datetime-local (WebKit)
-    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 1rem;
-      transform: translateY(-50%);
-      width: 1.2em;
-      height: 1.2em;
-      color: vars.$color-light;
-      opacity: 0.8;
-      cursor: pointer;
-      background: none;                // si par défaut un background-image
+    // 5) Icone native pour datetime-local (WebKit)
+    input[type="datetime-local"] {
+      padding-right: 2.5rem; // place pour l’icône
+
+      &::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        width: 1.2em;
+        height: 1.2em;
+        color: vars.$color-light;
+        opacity: 0.8;
+        cursor: pointer;
+        background: none;
+      }
     }
   }
 
+  // 6) Bouton d’envoi
   .form-submit-create-tournament {
     text-align: center;
     margin-top: 2rem;

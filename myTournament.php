@@ -31,6 +31,7 @@ button.delete {
     </style>
 </head>
 <body>
+    <div class="my-tournaments">
     <h1>Mes tournois</h1>
     <ul>
     <?php
@@ -59,5 +60,6 @@ button.delete {
             <?php endforeach;} ?>
         
     </ul>
+    </div>
 </body>
 </html>

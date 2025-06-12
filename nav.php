@@ -20,7 +20,10 @@ if (isset($_SESSION['user_id'])) {
 <body>
   <header class="navbar">
     <div class="logo">
-      <a href="index.php">FinalRush</a>
+      <a href="index.php">
+        <img src="assets/img/logo.png" alt="FinalRush" class="logo-img">
+        <p class="logo-text">FinalRush</p>
+      </a>
     </div>
 
     <ul class="nav-links">
