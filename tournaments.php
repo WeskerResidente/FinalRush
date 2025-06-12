@@ -16,7 +16,7 @@ $requestSelect->execute();
 <body>
     <section id="tournament-index">
         <div class="tournament-heading-index">
-            <h2>Listes des dernier tournois ayant été ajouté :</h2>
+            <h2>Listes des tournois :</h2>
         </div>
         <div class="tournament-list-index">
             <?php while ($tournament = $requestSelect->fetch()): ?>
@@ -25,7 +25,7 @@ $requestSelect->execute();
                     <p><?= htmlspecialchars($tournament['description']) ?></p>
                     <p>Date de début : <?= htmlspecialchars($tournament['start_date']) ?></p>
                     <p>Créé le : <?= htmlspecialchars($tournament['created_at']) ?></p>
-                    <p><a href="participant.php?tournament_id=<?= $tournament['id']?>">Lien vers le tournoi</a></p> 
+                    <a href="registerTournament.php?id=<?= $tournament['id']?>">Participer</a>
                 </div>
             <?php endwhile; ?>
         </div>
