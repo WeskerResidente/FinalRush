@@ -1,9 +1,9 @@
 // assets/scss/Layout/_header.scss
 
-@import '../abstracts/variable';
-@import '../abstracts/typographies';
-@import '../base/utilities';
-@import '../components/buttons';
+@use '../abstracts/variable';
+@use '../abstracts/typographies';
+@use '../base/utilities';
+@use '../components/buttons';
 
 
 header.container {
