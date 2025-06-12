@@ -54,6 +54,7 @@ button.delete {
                         <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
                         <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
                     </form>
+                    <a href="participant.php?tournament_id=<?= $t['id'] ?>">Consulter</a>
                 </li>
             <?php endforeach;} ?>
         
