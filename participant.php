@@ -17,11 +17,11 @@ $locked  = (bool)$tourney['is_closed'];
 
 // 2) Charger participants et utilisateurs disponibles
 $pStmt = $bdd->prepare("
-  SELECT p.id, p.seed, u.username
+  SELECT p.id, u.username
     FROM participants p
     JOIN users u ON u.id = p.user_id
    WHERE p.tournament_id = ?
-   ORDER BY p.seed
+   ORDER BY p.id
 ");
 $aStmt = $bdd->prepare("
   SELECT id, username
@@ -46,13 +46,13 @@ $mt = $bdd->prepare("
 $mt->execute([$tourneyId]);
 $matches = $mt->fetchAll();
 
-// 4) Déterminer le nombre de rounds déjà générés
+// 4) Déterminer le dernier round généré
 $roundsPlayed = 0;
 foreach ($matches as $m) {
     $roundsPlayed = max($roundsPlayed, $m['round']);
 }
 
-// 5) Détecter champion si dernier round terminé
+// 5) Détecter champion si le dernier round est complet
 $champion = '';
 if ($roundsPlayed > 0) {
     $lastMatches = array_filter($matches, fn($m) => $m['round'] === $roundsPlayed);
@@ -69,7 +69,7 @@ if ($roundsPlayed > 0) {
     }
 }
 
-// 6) Traitement des formulaires (ajout, suppr, generate, win, close)
+// 6) Traitement POST (admin & pas locked)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
     $act = $_POST['action'] ?? '';
 
@@ -79,12 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
         $chk = $bdd->prepare("SELECT 1 FROM participants WHERE tournament_id = ? AND user_id = ?");
         $chk->execute([$tourneyId, $uid]);
         if (!$chk->fetch()) {
-            $seed = (int)$bdd
-              ->prepare("SELECT COALESCE(MAX(seed),0)+1 FROM participants WHERE tournament_id = ?")
-              ->execute([$tourneyId]);
-            $seed = $bdd->prepare("SELECT COALESCE(MAX(seed),0)+1 FROM participants WHERE tournament_id = ?")->fetchColumn();
-            $bdd->prepare("INSERT INTO participants (tournament_id, user_id, seed) VALUES (?, ?, ?)")
-                ->execute([$tourneyId, $uid, $seed]);
+            $bdd->prepare("INSERT INTO participants (tournament_id, user_id) VALUES (?, ?)")
+                ->execute([$tourneyId, $uid]);
         }
     }
 
@@ -93,14 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
         $pid = (int)$_POST['participant_id'];
         $bdd->prepare("DELETE FROM participants WHERE id = ? AND tournament_id = ?")
             ->execute([$pid, $tourneyId]);
-        // Réindexer seeds
-        $bdd->exec("SET @s := 0");
-        $bdd->prepare("
-          UPDATE participants
-             SET seed = (@s := @s + 1)
-           WHERE tournament_id = ?
-           ORDER BY seed
-        ")->execute([$tourneyId]);
     }
 
     // — Générer le premier tour
@@ -109,13 +97,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
         $bdd->prepare("DELETE FROM matches WHERE tournament_id = ?")
             ->execute([$tourneyId]);
 
-        // Préparer la liste des IDs (avec bye si impair)
+        // Pool initial
         $ids = array_column($participants, 'id');
         if (count($ids) % 2 === 1) {
             $ids[] = null;
         }
 
-        // Insérer round 1 en fournissant score_a et score_b = 0
+        // Insérer round 1
         $ins = $bdd->prepare("
           INSERT INTO matches
             (tournament_id, player_a_id, player_b_id, round, score_a, score_b, winner_id)
@@ -136,33 +124,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
         }
     }
 
-    // — Valider un match (admin) et générer le tour suivant si nécessaire
+    // — Valider un match et générer le tour suivant si terminé
     if ($act === 'win') {
         $mid    = (int)$_POST['match_id'];
         $round  = (int)$_POST['round'];
         $winner = (int)$_POST['winner_id'];
 
-        // Mettre à jour score_a/score_b à 1/0 implicite, ou simplement winner_id
+        // MàJ winner
         $bdd->prepare("UPDATE matches SET winner_id = ? WHERE id = ?")
             ->execute([$winner, $mid]);
 
-        // Vérifier si tous les matchs du round courant sont finis
+        // Si tous matchs du round sont finis => tour suivant
         $tot = $bdd->prepare("SELECT COUNT(*) FROM matches WHERE tournament_id = ? AND round = ?");
         $fin = $bdd->prepare("SELECT COUNT(*) FROM matches WHERE tournament_id = ? AND round = ? AND winner_id IS NOT NULL");
-        $tot->execute([$tourneyId, $round]);  $total    = $tot->fetchColumn();
-        $fin->execute([$tourneyId, $round]);  $finished = $fin->fetchColumn();
+        $tot->execute([$tourneyId,$round]);  $total    = $tot->fetchColumn();
+        $fin->execute([$tourneyId,$round]);  $finished = $fin->fetchColumn();
 
         if ($total > 0 && $finished === $total) {
-            // Récupérer les winners
-            $wq = $bdd->prepare("SELECT winner_id FROM matches WHERE tournament_id = ? AND round = ? ORDER BY id");
+            // récupérer tous les winners
+            $wq = $bdd->prepare("
+              SELECT winner_id
+                FROM matches
+               WHERE tournament_id = ? AND round = ?
+               ORDER BY id
+            ");
             $wq->execute([$tourneyId, $round]);
             $wins = array_filter($wq->fetchAll(PDO::FETCH_COLUMN));
-
             if (count($wins) > 1) {
                 if (count($wins) % 2 === 1) {
                     $wins[] = null;
                 }
-                // Insérer le round suivant
+                // insérer round suivant
                 $ins2 = $bdd->prepare("
                   INSERT INTO matches
                     (tournament_id, player_a_id, player_b_id, round, score_a, score_b, winner_id)
@@ -191,9 +183,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
         $locked = true;
     }
 
-    // Recharger données
+    // Recharger
     $pStmt->execute([$tourneyId]); $participants = $pStmt->fetchAll();
     $mt->execute([$tourneyId]);    $matches     = $mt->fetchAll();
+
+    // PRG
     header('Location: participant.php?tournament_id=' . $tourneyId);
     exit;
 }
@@ -208,20 +202,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
 </head>
 <body>
   <div class="bracket-page">
-
     <main>
       <h1><?=htmlspecialchars($tourney['name'])?></h1>
       <?php if($champion): ?>
-        <h2 class="champion">🏆 <?=htmlspecialchars($champion)?> </h2>
+        <h2 class="champion">🏆 <?=htmlspecialchars($champion)?></h2>
       <?php endif; ?>
 
       <!-- Participants -->
       <section class="participants">
-        <h2>Participants <?= $locked?'(clos)' : '' ?></h2>
+        <h2>Participants <?= $locked ? '(clos)' : '' ?></h2>
         <ul>
           <?php foreach($participants as $p): ?>
             <li>
-              <?=$p['seed']?> – <?=htmlspecialchars($p['username'])?>
+              <?=htmlspecialchars($p['username'])?>
               <?php if($isAdmin && !$locked): ?>
                 <form method="post" action="?tournament_id=<?=$tourneyId?>" class="inline">
                   <input type="hidden" name="action" value="del">
@@ -240,8 +233,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
               <?php endforeach; ?>
             </select>
             <button type="submit" name="action" value="add"      class="button">➕ Ajouter</button>
-            <button type="submit" name="action" value="generate" class="button">Générer Tour 1</button>
-            <button type="submit" name="action" value="close"    class="button">Clore Tournoi</button>
+            <button type="submit" name="action" value="generate" class="button">Générer</button>
+            <button type="submit" name="action" value="close"    class="button">Clore</button>
           </form>
         <?php endif; ?>
       </section>
@@ -300,7 +293,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && !$locked) {
           </div>
         <?php endforeach; ?>
       </section>
-
     </main>
   </div>
 </body>

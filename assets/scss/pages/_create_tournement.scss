@@ -1,0 +1,92 @@
+// assets/scss/components/_create-tournament.scss
+
+@use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
+
+.form-create-tournament {
+  max-width: 500px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: vars.$color-bg;
+  border: 2px solid vars.$color-primary;
+  border-radius: 8px;
+  box-shadow: vars.$glow-primary;
+  font-family: vars.$font-body;
+  color: vars.$color-light;
+  position: relative;
+
+  h2 {
+    font-family: vars.$font-title;
+    color: vars.$color-secondary;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: vars.$glow-secondary;
+  }
+
+  .form-item-create-tournament {
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: vars.$color-light;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 0.75rem;
+      padding-right: 2.5rem;            // espace pour l’icône
+      border: 2px solid vars.$color-light;
+      border-radius: 4px;
+      background-color: vars.$color-bg;
+      color: vars.$color-light;
+      font-family: vars.$font-body;
+      font-size: 1rem;
+      transition: border-color vars.$transition-fast,
+                  box-shadow  vars.$transition-fast;
+      appearance: textfield;           // restore native picker for WebKit
+      -webkit-appearance: textfield;
+
+      &::placeholder {
+        color: vars.$color-light;
+        opacity: 0.6;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-primary;
+        box-shadow: vars.$glow-primary;
+      }
+    }
+
+    // Icône du picker pour datetime-local (WebKit)
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      width: 1.2em;
+      height: 1.2em;
+      color: vars.$color-light;
+      opacity: 0.8;
+      cursor: pointer;
+      background: none;                // si par défaut un background-image
+    }
+  }
+
+  .form-submit-create-tournament {
+    text-align: center;
+    margin-top: 2rem;
+
+    button {
+      @include btn.button-base;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+}

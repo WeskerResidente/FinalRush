@@ -561,29 +561,268 @@ main .champion {
   opacity: 1;
   cursor: default;
 }
-.bracket .round .match .btn-win::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 0.5rem;
-  height: 100%;
-  background: #ff003c;
-}
 .bracket .round .match .connector {
   width: 2rem;
   height: 2px;
   background: #d9d9d9;
   align-self: center;
 }
-.bracket .round .match::before {
-  content: "";
+
+.form-create-tournament {
+  max-width: 500px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #0d0d0d;
+  border: 2px solid #8f00ff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #8f00ff;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  color: #d9d9d9;
+  position: relative;
+}
+.form-create-tournament h2 {
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  color: #00e5ff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px #00e5ff;
+}
+.form-create-tournament .form-item-create-tournament {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.form-create-tournament .form-item-create-tournament label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #d9d9d9;
+}
+.form-create-tournament .form-item-create-tournament input[type=text],
+.form-create-tournament .form-item-create-tournament textarea,
+.form-create-tournament .form-item-create-tournament input[type=datetime-local] {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: #0d0d0d;
+  color: #d9d9d9;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  appearance: textfield;
+  -webkit-appearance: textfield;
+}
+.form-create-tournament .form-item-create-tournament input[type=text]::placeholder,
+.form-create-tournament .form-item-create-tournament textarea::placeholder,
+.form-create-tournament .form-item-create-tournament input[type=datetime-local]::placeholder {
+  color: #d9d9d9;
+  opacity: 0.6;
+}
+.form-create-tournament .form-item-create-tournament input[type=text]:focus,
+.form-create-tournament .form-item-create-tournament textarea:focus,
+.form-create-tournament .form-item-create-tournament input[type=datetime-local]:focus {
+  outline: none;
+  border-color: #8f00ff;
+  box-shadow: 0 0 10px #8f00ff;
+}
+.form-create-tournament .form-item-create-tournament input[type=datetime-local]::-webkit-calendar-picker-indicator {
+  display: block;
   position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 2px;
-  height: 1.5rem;
-  background: #d9d9d9;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 1.2em;
+  height: 1.2em;
+  color: #d9d9d9;
+  opacity: 0.8;
+  cursor: pointer;
+  background: none;
+}
+.form-create-tournament .form-submit-create-tournament {
+  text-align: center;
+  margin-top: 2rem;
+}
+.form-create-tournament .form-submit-create-tournament button {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+}
+.form-create-tournament .form-submit-create-tournament button:hover:not(:disabled) {
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+}
+.form-create-tournament .form-submit-create-tournament button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-panel {
+  padding: 2rem;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  color: #d9d9d9;
+  background: #0d0d0d;
+}
+.admin-panel h1 {
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  color: #00e5ff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px #00e5ff;
+}
+.admin-panel table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  border-collapse: collapse;
+  background: rgb(0.25, 0.25, 0.25);
+}
+.admin-panel table th, .admin-panel table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d9d9d9;
+  text-align: left;
+}
+.admin-panel table thead {
+  background: #8f00ff;
+}
+.admin-panel table thead th {
+  color: #000;
+}
+.admin-panel table tbody tr:nth-child(even) {
+  background: rgb(25.75, 25.75, 25.75);
+}
+.admin-panel table tbody tr:hover {
+  background: #8f00ff;
+}
+.admin-panel table tbody tr:hover td {
+  color: #000;
+}
+.admin-panel table ul {
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  list-style: disc;
+}
+.admin-panel table ul li {
+  margin-bottom: 0.25rem;
+  position: relative;
+}
+.admin-panel .delete {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: #ff003c;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+.admin-panel .delete:hover:not(:disabled) {
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+}
+.admin-panel .delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.admin-panel .delete:hover {
+  box-shadow: 0 0 10px #8f00ff;
+  background: #cc0030;
+}
+.admin-panel .controls {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.admin-panel .controls select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-right: 1rem;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+  background: #0d0d0d;
+  color: #d9d9d9;
+  transition: border-color 0.2s ease-in-out;
+}
+.admin-panel .controls select:focus {
+  border-color: #8f00ff;
+  outline: none;
+}
+.admin-panel .controls button {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin: 0 0.5rem;
+}
+.admin-panel .controls button:hover:not(:disabled) {
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+}
+.admin-panel .controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.admin-panel .pagination {
+  text-align: center;
+  margin: 2rem 0;
+}
+.admin-panel .pagination a {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-block;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+}
+.admin-panel .pagination a:hover:not(:disabled) {
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+}
+.admin-panel .pagination a:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.admin-panel .pagination a:hover {
+  box-shadow: 0 0 10px #00e5ff;
+}
+.admin-panel .pagination span {
+  display: inline-block;
+  margin: 0 0.5rem;
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=style.css.map */
