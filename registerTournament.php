@@ -48,8 +48,8 @@ if (!empty($_SESSION['user_id'])) {
 }
 
 if ($tourney['is_closed']) {
-    die("<h1>Ce tournoi est déjà terminé ou fermé.</h1>
-         <p><a href='tournaments.php'>← Retour à la liste des tournois</a></p>");
+    die('<h1 class="message erreur">Ce tournoi est déjà terminé ou fermé.</h1><br>
+         <a href="tournaments.php" class="button">← Retour à la liste des tournois</a>');
 }else {
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
       if (empty($_SESSION['user_id'])) {

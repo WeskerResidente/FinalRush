@@ -221,6 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
 <body class="bracket-page">
 
   <main>
+    <?php if($tourney['is_closed'] == 0): ?>
     <p>
       Places restantes :
       <?php if ($remaining>0): ?>
@@ -229,7 +230,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
         <strong class="full">Complet</strong>
       <?php endif; ?>
     </p>
-
+    <?php else:?> 
+    <p class="full"><strong>Ce tournoi est terminé.</strong></p>
+    <?php endif; ?>
   <h1>
     <?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?> 
     <small>— <?= htmlspecialchars($tourney['game_name'], ENT_QUOTES) ?></small>
