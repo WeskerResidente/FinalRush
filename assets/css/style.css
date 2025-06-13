@@ -43,6 +43,7 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .navbar {
   display: flex;
   align-items: center;
@@ -585,6 +586,25 @@ footer .social-icons a:hover {
 }
 .tournament-closed:hover {
   box-shadow: 0 0 10px #8f00ff;
+}
+
+.search-tournament {
+  text-align: center;
+  margin: 2rem 0;
+}
+.search-tournament input {
+  padding: 0.6rem;
+  width: 15%;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+  background: #0d0d0d;
+  color: #d9d9d9;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
+  transition: border-color 0.2s ease-in-out;
+}
+.search-tournament input:focus {
+  outline: none;
+  border-color: #8f00ff;
 }
 
 .bracket-page {
