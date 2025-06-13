@@ -36,7 +36,7 @@ button.delete {
     <ul>
     <?php
     $userId = $_SESSION['user_id'];
-    $requestSelect = $bdd->prepare('SELECT t.id, t.name, t.start_date
+    $requestSelect = $bdd->prepare('SELECT t.id, t.name, t.start_date, t.is_closed
         FROM tournaments t
         INNER JOIN participants p ON t.id = p.tournament_id
         WHERE p.user_id = ?
@@ -51,6 +51,10 @@ button.delete {
             <?php foreach ($tournaments as $t): ?>
                 <li>
                     <strong><?= htmlspecialchars($t['name']) ?></strong> (début : <?= htmlspecialchars($t['start_date']) ?>)
+                    <br>
+                    <?php if ($t['is_closed'] == 1): ?>
+                        <p class="tournament-closed">Ce tournois est terminé</p>
+                    <?php endif; ?>
                     <form method="post" action="" style="display:inline">
                         <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
                         <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
