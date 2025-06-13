@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : ven. 13 juin 2025 à 07:16
+-- Généré le : ven. 13 juin 2025 à 10:01
 -- Version du serveur : 8.0.42
 -- Version de PHP : 8.2.27
 
@@ -21323,7 +21323,10 @@ INSERT INTO `matches` (`id`, `tournament_id`, `round`, `player_a_id`, `player_b_
 (21630, 41, 1, 183, NULL, 0, 0, 183),
 (21631, 41, 2, 178, 182, 0, 0, 178),
 (21632, 41, 2, 183, NULL, 0, 0, 183),
-(21633, 41, 3, 178, 183, 0, 0, NULL);
+(21633, 41, 3, 178, 183, 0, 0, NULL),
+(21634, 48, 1, 187, 188, 0, 0, 187),
+(21635, 48, 1, 189, 190, 0, 0, 190),
+(21636, 48, 2, 187, 190, 0, 0, 187);
 
 -- --------------------------------------------------------
 
@@ -21501,7 +21504,11 @@ INSERT INTO `participants` (`id`, `user_id`, `winner_flag`, `tournament_id`) VAL
 (185, 16, 0, 1),
 (186, 1, 0, 39),
 (187, 1, 0, 48),
-(188, 18, 0, 48);
+(188, 18, 0, 48),
+(189, 7, 0, 48),
+(190, 2, 0, 48),
+(191, 18, 0, 47),
+(192, 18, 0, 46);
 
 -- --------------------------------------------------------
 
@@ -21527,8 +21534,18 @@ CREATE TABLE `tournaments` (
 INSERT INTO `tournaments` (`id`, `name`, `description`, `start_date`, `created_at`, `is_closed`, `max_players`, `game_id`) VALUES
 (46, 'Découverte de congénères', '6545', '2025-06-20 17:00:00', '2025-06-12 20:14:43', 0, 8, 2),
 (47, 'Champion of the Perished', 'sqsqs', '2025-06-12 17:00:00', '2025-06-12 20:15:08', 0, 8, 4),
-(48, 'Découverte de congénères', '6+464', '2025-06-20 17:00:00', '2025-06-12 20:15:47', 0, 8, 2),
-(49, 'Découverte de congénères', 'test', '2025-06-20 17:00:00', '2025-06-13 07:03:28', 0, 8, 3);
+(48, 'Découverte de congénères', '6+464', '2025-06-20 17:00:00', '2025-06-12 20:15:47', 1, 8, 2),
+(49, 'Découverte de congénères', 'test', '2025-06-20 17:00:00', '2025-06-13 07:03:28', 0, 8, 3),
+(70, 'Tournoi Alpha', 'Description du tournoi Alpha', '2025-07-01 18:00:00', '2025-06-13 10:01:01', 0, 8, 2),
+(71, 'Tournoi Bravo', 'Description du tournoi Bravo', '2025-07-05 19:30:00', '2025-06-13 10:01:01', 0, 16, 3),
+(72, 'Tournoi Charlie', 'Description du tournoi Charlie', '2025-07-10 20:00:00', '2025-06-13 10:01:01', 0, 12, 2),
+(73, 'Tournoi Delta', 'Description du tournoi Delta', '2025-07-15 17:00:00', '2025-06-13 10:01:01', 0, 8, 3),
+(74, 'Tournoi Echo', 'Description du tournoi Echo', '2025-07-20 18:30:00', '2025-06-13 10:01:01', 0, 16, 2),
+(75, 'Tournoi Foxtrot', 'Description du tournoi Foxtrot', '2025-07-25 19:00:00', '2025-06-13 10:01:01', 0, 32, 2),
+(76, 'Tournoi Golf', 'Description du tournoi Golf', '2025-08-01 20:00:00', '2025-06-13 10:01:01', 0, 24, 3),
+(77, 'Tournoi Hotel', 'Description du tournoi Hotel', '2025-08-05 18:00:00', '2025-06-13 10:01:01', 0, 8, 2),
+(78, 'Tournoi India', 'Description du tournoi India', '2025-08-10 19:30:00', '2025-06-13 10:01:01', 0, 16, 3),
+(79, 'Tournoi Juliet', 'Description du tournoi Juliet', '2025-08-15 17:00:00', '2025-06-13 10:01:01', 0, 12, 3);
 
 -- --------------------------------------------------------
 
@@ -21551,16 +21568,28 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `color`, `avatar`) VALUES
 (1, 'Wesker008', '$2y$10$rn.x2fMMweY1EUCmmWRmVecpjAiggqLuQJ1xYA2dmeOZyHwHkwxFy', 'admin', '#0062ff', 'user_1_1749761871.gif'),
-(2, 'faker', '1234', 'player', '', 'default-avatar.jpg'),
-(3, 'Reckless', '1234', 'player', '', 'default-avatar.jpg'),
-(4, 'a', '1234', 'player', '', 'default-avatar.jpg'),
 (5, 'Wesker', '$2y$10$mo02NyDGfuwp7oKFxjclS.0yAcPDo3GyzfQAin2f6Bq1ABbmx/NKa', 'player', '', 'default-avatar.jpg'),
 (7, 'albert', '$2y$10$CCG0DtyU61n8ZW4r2F/mrOuvrJ.WyypR3O75/OlYd0PFtGCbK3WeK', 'player', '', 'default-avatar.jpg'),
 (14, 'nike', '$2y$10$X.pV4x4XUs8vvqEqQjhjB.v1xISO9jUcBuRaNMxo0pqBOsThDjB02', 'player', '', 'default-avatar.jpg'),
 (15, 'iris', '$2y$10$2OXAxXug64NjqG0.s3R.hO/HLWj0pWKMEhxcXaNtiVyRtwtwZphiu', 'player', '', 'default-avatar.jpg'),
 (16, 'plouf', '$2y$10$NYoFW9eoekNAwGYDvA6AZujoKlN/tVU.ei06fGOV3aiOfIIxwVdli', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
 (17, 'ben', '$2y$10$FWmY1p.0PuTie/eNhFqkseLBYnhrakr1H8zMoKcnlXJ92bxXXZu7q', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
-(18, 'ludopepito', '$2y$10$eD9lQhf5Z9IQNRDrlfPkNuomMaBmu73WW9aTDHLXeaE4oVJpBnCQq', 'player', '#ff0000', 'user_18_1749798375.jpg');
+(18, 'ludopepito', '$2y$10$eD9lQhf5Z9IQNRDrlfPkNuomMaBmu73WW9aTDHLXeaE4oVJpBnCQq', 'player', '#ff0000', 'user_18_1749798375.jpg'),
+(19, 'help', '$2y$10$xqe/RRwFiJnrCGMXOtoVdeajFKAjzVxsR9Bjrn1XpnHr7gEaX7q6S', 'player', '#fa0000', 'default-avatar.jpg'),
+(20, 's1mple', '$2y$10$GyggLoHnf52c2kal4TuTv.eRT9HVLh/zOu05dEUKtg3N3YYxAnaI.', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(21, 'ZywOo', '$2y$10$j9jPvtzVz3wt8NhT0wwFTus.6p0KbXEMMfHLDoS9nBMq2FDovo2.6', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(22, 'Doublelift', '$2y$10$hU6Jk37GLHCgcUi.l95V1eVdaOKEa.7vD5D5J0fBD.FHbjJhCQL82', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(23, 'N0tail', '$2y$10$Mt9en0Hql3rWbd31Py/OVOKvKlsMQ.EoRldOY/8MgM4658FtSigp.', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(24, 'Doinb', '$2y$10$GBvk2lXSuSgPHyZf2rvI/uf1AiYGqbMcJytRmFg4zN1jM4ITB61Ya', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(25, 'Uzi', '$2y$10$HGCa4omxjP3neaCHbYJKD.KucEF3cjYH0h45gukiJdeF0trRtQFbC', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(26, 'Mata', '$2y$10$rIWYrsRlFK5oYE3FHf9nA.D95.RZO9d4UMoDM8VMWLuAmauw57N4K', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(27, 'Caps', '$2y$10$JU.0HujheZX8dPbxqHcH7.JTaBuRenlEg2B4/.nizeCLGWVd8e4xu', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(28, 'TenZ', '$2y$10$wG3/LY7RvfwP0RRcv1HFI.Vdl3qEQtWOp8fW/1jH8.2GFDimW0oRy', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(29, 'Shroud', '$2y$10$3Kd5E2nVTtw4Ooq3OGMmd.p6Wx6Ia7qFa1yK7cqCJ6IsdcT6MtMDe', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(30, 'Ninja', '$2y$10$9fuT/J3uo50qIM0E.sjBfOsMcE8ym8xtMKblT20CCLrdGOGkMy2b.', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(31, 'Arteezy', '$2y$10$ylNtm8SXXS2OB0tw18ibcuWSFkNgX9.XSiomW1NhMigtiNwCLYyUi', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(32, 'Xpeke', '$2y$10$0/r/soA5OZwiFo4nmq1WO.pCdM3LdWcHI3VS7N4HZLmhNWKagA0AW', 'player', ' #FFFFFF ', 'default-avatar.jpg'),
+(33, 'Rekkles', '$2y$10$TJ5E1C/5..2we.V6xTfDVe/btcH9vmWAxjQK5d8Fj7IGwe2LSZAoe', 'player', ' #FFFFFF ', 'default-avatar.jpg');
 
 --
 -- Index pour les tables déchargées
@@ -21612,25 +21641,25 @@ ALTER TABLE `games`
 -- AUTO_INCREMENT pour la table `matches`
 --
 ALTER TABLE `matches`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21634;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21637;
 
 --
 -- AUTO_INCREMENT pour la table `participants`
 --
 ALTER TABLE `participants`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT pour la table `tournaments`
 --
 ALTER TABLE `tournaments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Contraintes pour les tables déchargées
