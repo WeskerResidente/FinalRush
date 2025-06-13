@@ -52,9 +52,11 @@ button.delete {
                 <li>
                     <strong><?= htmlspecialchars($t['name']) ?></strong> (début : <?= htmlspecialchars($t['start_date']) ?>)
                     <br>
+                    <!-- affichage uniquement si closed -->
                     <?php if ($t['is_closed'] == 1): ?>
                         <p class="tournament-closed">Ce tournois est terminé</p>
                     <?php endif; ?>
+                    <!-- affichage uniquement si non closed -->
                     <?php if ($t['is_closed'] == 0): ?>
                         <form method="post" action="" style="display:inline">
                             <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
