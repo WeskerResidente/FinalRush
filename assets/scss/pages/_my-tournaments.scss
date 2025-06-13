@@ -92,11 +92,12 @@ a.consult,
         }
 
         a.consult {
-          background: vars.$color-secondary;
-          color: #000;
+          background: vars.$color-primary;
+          color: vars.$color-light;
           text-decoration: none;
           &:hover {
             box-shadow: 0 0 8px vars.$color-secondary;
+            color: vars.$color-primary;
           }
 }
 
