@@ -84,7 +84,7 @@
       }
     }
 
-            a.consult,
+a.consult,
         button.delete {
           @include btn.button-base;
           font-size: 0.9rem;
@@ -98,5 +98,29 @@
           &:hover {
             box-shadow: 0 0 8px vars.$color-secondary;
           }
-        }
+}
 
+@media screen and (max-width: 1024px) {
+  .my-tournaments {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    ul li {
+      flex-direction: column;
+
+      strong {
+        margin-bottom: 0.5rem;
+      }
+
+      a {
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+}

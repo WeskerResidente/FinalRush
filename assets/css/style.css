@@ -1296,6 +1296,25 @@ a.consult:hover {
   box-shadow: 0 0 8px #00e5ff;
 }
 
+@media screen and (max-width: 1024px) {
+  .my-tournaments {
+    padding: 1rem;
+  }
+  .my-tournaments h1 {
+    font-size: 1.5rem;
+  }
+  .my-tournaments ul li {
+    flex-direction: column;
+  }
+  .my-tournaments ul li strong {
+    margin-bottom: 0.5rem;
+  }
+  .my-tournaments ul li a {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+}
 .hero {
   position: relative;
   height: 60vh;
