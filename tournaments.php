@@ -51,14 +51,10 @@ $tournaments = $stmt->fetchAll();
             <?= htmlspecialchars($t['name']) ?>
             <small>(<?= htmlspecialchars($t['game_name']) ?>)</small>
           </h3>
-          <p><?= htmlspecialchars($t['description'], ENT_QUOTES) ?></p>
-          <p>Date de début : <?= htmlspecialchars($t['start_date'], ENT_QUOTES) ?></p>
-          <p>Créé le : <?= htmlspecialchars($t['created_at'], ENT_QUOTES) ?></p>
-          <a href="registerTournament.php?id=<?= $t['id'] ?>" class="consult">Participer</a>
           <p><?= htmlspecialchars($t['description']) ?></p>
           <p>Date de début : <?= htmlspecialchars($t['start_date']) ?></p>
           <p>Créé le : <?= htmlspecialchars($t['created_at']) ?></p>
-          <a href="registerTournament.php?id=<?= $t['id'] ?>" class="consult-participer">Participer</a>
+          <a href="registerTournament.php?id=<?= $t['id'] ?>" class="consult">Participer</a>
         </div>
         <?php endif; ?>
       <?php endforeach; ?>
