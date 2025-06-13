@@ -11,7 +11,7 @@ if ($tourneyId <= 0) {
     die("Tournoi invalide.");
 }
 
-// 1) Charger le tournoi
+// 1) charge le tournoi
 $stmt = $bdd->prepare("
   SELECT t.name, t.is_closed, t.max_players, g.name AS game_name
     FROM tournaments t
@@ -25,7 +25,7 @@ $tourney = $stmt->fetch(PDO::FETCH_ASSOC)
 $locked    = (bool)$tourney['is_closed'];
 $maxPlayers = (int)$tourney['max_players'];
 
-// 2) Compter les inscrits + places restantes
+// comtpe les inscrit et les places restantes
 $countStmt = $bdd->prepare("
   SELECT COUNT(*) AS cnt
     FROM participants
@@ -35,7 +35,7 @@ $countStmt->execute([$tourneyId]);
 $currentCount = (int)$countStmt->fetchColumn();
 $remaining    = $maxPlayers - $currentCount;
 
-// 3) Charger la liste des participants
+//  liste des participant
 $pStmt = $bdd->prepare("
   SELECT p.id AS part_id, u.username
     FROM participants p
@@ -46,7 +46,7 @@ $pStmt = $bdd->prepare("
 $pStmt->execute([$tourneyId]);
 $participants = $pStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 4) Charger les matches
+// 4) charge les match
 $mt = $bdd->prepare("
   SELECT id, round, player_a_id, player_b_id, winner_id
     FROM matches
@@ -56,7 +56,7 @@ $mt = $bdd->prepare("
 $mt->execute([$tourneyId]);
 $matches = $mt->fetchAll(PDO::FETCH_ASSOC);
 
-// 5) Déterminer le dernier round et le champion éventuel
+// 5) gère le champion et le dernier round
 $roundsPlayed = 0;
 foreach ($matches as $m) {
     $roundsPlayed = max($roundsPlayed, (int)$m['round']);
@@ -81,7 +81,6 @@ if ($roundsPlayed > 0) {
     }
 }
 
-// 6) Charger les utilisateurs non-inscrits (pour l’admin)
 $aStmt = $bdd->prepare("
   SELECT id, username
     FROM users
@@ -93,7 +92,6 @@ $aStmt = $bdd->prepare("
 $aStmt->execute([$tourneyId]);
 $available = $aStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 7) Traitement du POST (PRG-safe)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
     $act = $_POST['action'] ?? '';
 
@@ -205,7 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
         $locked = true;
     }
 
-    // PRG
     header("Location: participant.php?tournament_id={$tourneyId}");
     exit;
 }
@@ -261,7 +258,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
 <?php if($isAdmin && !$locked): ?>
   <div class="participants-admin-controls">
 
-    <!-- 1) Formulaire pour ajouter un joueur -->
     <form method="post" action="?tournament_id=<?= $tourneyId ?>" class="control-add">
       <input type="hidden" name="action" value="add">
       <select name="user_id" required>
@@ -274,14 +270,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
       </select>
       <button class="button">➕ Ajouter</button>
     </form>
-
-    <!-- 2) Formulaire pour générer le premier tour -->
     <form method="post" action="?tournament_id=<?= $tourneyId ?>" class="control-generate">
       <input type="hidden" name="action" value="generate">
       <button class="button">Générer Tour 1</button>
     </form>
 
-    <!-- 3) Formulaire pour clore le tournoi -->
     <form method="post" action="?tournament_id=<?= $tourneyId ?>" class="control-close">
       <input type="hidden" name="action" value="close">
       <button class="button danger">Clore Tournoi</button>

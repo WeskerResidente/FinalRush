@@ -27,7 +27,6 @@ if (isset($_SESSION['user_id'])) {
       </a>
     </div>
 
-    <!-- BOUTON BURGER -->
     <button class="navbar-burger" id="navbar-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
       <span></span>
       <span></span>
