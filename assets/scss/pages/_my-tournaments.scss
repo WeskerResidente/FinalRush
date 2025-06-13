@@ -1,13 +1,16 @@
+// assets/scss/components/_my-tournaments.scss
+
 @use "../abstracts/variable" as vars;
 @use "../components/buttons"   as btn;
 
 .my-tournaments {
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: vars.$font-body;
-  color: vars.$color-light;
   background: vars.$color-bg;
+  color: vars.$color-light;
+  border: 2px solid vars.$color-primary;
+  border-radius: 8px;
+  box-shadow: 0 0 10px vars.$glow-primary;
+  font-family: vars.$font-body;
 
   h1 {
     font-family: vars.$font-title;
@@ -22,49 +25,78 @@
     padding: 0;
 
     li {
-      background: darken(vars.$color-bg, 5%);
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border: 2px solid vars.$color-primary;
-      border-radius: 6px;
-      box-shadow: vars.$glow-primary;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: darken(vars.$color-bg, 5%);
+      border: 2px solid vars.$color-secondary;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 6px vars.$glow-secondary;
 
-      strong {
-        font-size: 1.1rem;
-        color: vars.$color-light;
+      .tournament-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+
+        .title {
+          font-weight: bold;
+          color: #fff;
+        }
+
+        .date {
+          font-size: 0.9rem;
+          color: vars.$color-light;
+        }
+
+        .status {
+          color: vars.$color-accent;
+          font-weight: bold;
+        }
       }
 
-      a {
-        @include btn.button-base;
-        margin-left: 1rem;
-        text-decoration: none;
-      }
 
-      form {
-        display: inline;
+
+    .no-tournaments {
+      text-align: center;
+      font-style: italic;
+      color: vars.$color-light;
+    }
+  }
+}
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+
 
         button.delete {
-          @include btn.button-base;
           background: none;
           color: vars.$color-accent;
-          font-size: 1rem;
-          padding: 0.25rem 0.5rem;
-          margin-left: 0.5rem;
-
+          border: 2px solid vars.$color-accent;
           &:hover {
-            box-shadow: vars.$glow-secondary;
+            box-shadow: 0 0 8px vars.$color-accent;
           }
         }
       }
     }
-  }
 
-  .no-tournaments {
-    text-align: center;
-    color: vars.$color-light;
-    font-style: italic;
-  }
-}
+            a.consult,
+        button.delete {
+          @include btn.button-base;
+          font-size: 0.9rem;
+          padding: 0.4rem 0.8rem;
+        }
+
+        a.consult {
+          background: vars.$color-secondary;
+          color: #000;
+          text-decoration: none;
+          &:hover {
+            box-shadow: 0 0 8px vars.$color-secondary;
+          }
+        }
+

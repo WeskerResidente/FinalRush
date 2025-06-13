@@ -65,18 +65,20 @@
         font-size: 0.9rem;
       }
     }
+
   }
 }
-.tournament-closed {
-  color: vars.$color-accent;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: bold;
-  margin-top: 1rem;
-  padding: 0 0.5rem;
-  width: fit-content;
 
-  &:hover {
-    box-shadow: vars.$glow-primary;
-    }
+.tournament-closed {
+      color: vars.$color-accent;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+      padding: 0 0.5rem;
+      width: fit-content;
+
+      &:hover {
+        box-shadow: vars.$glow-primary;
+      }
 }

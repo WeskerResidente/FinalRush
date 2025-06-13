@@ -50,20 +50,25 @@ button.delete {
         } else {?>
             <?php foreach ($tournaments as $t): ?>
                 <li>
-                    <strong><?= htmlspecialchars($t['name']) ?></strong> (début : <?= htmlspecialchars($t['start_date']) ?>)
+                    <span class="tittle"></span><strong><?= htmlspecialchars($t['name']) ?></strong></span><span class="date"> (début : <?= htmlspecialchars($t['start_date']) ?>)</span>
                     <br>
                     <!-- affichage uniquement si closed -->
                     <?php if ($t['is_closed'] == 1): ?>
-                        <p class="tournament-closed">Ce tournois est terminé</p>
+                        <span class="status">Ce tournois est terminé</span>
                     <?php endif; ?>
+<<<<<<< create_tournament
                     <!-- affichage uniquement si non closed -->
                     <?php if ($t['is_closed'] == 0): ?>
                         <form method="post" action="" style="display:inline">
+=======
+                    <form method="post" action="" style="display:inline">
+                        <div class="actions">
+>>>>>>> main
                             <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
                             <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
-                        </form>
-                    <?php endif; ?>
-                    <a href="participant.php?tournament_id=<?= $t['id'] ?>">Consulter</a>
+                            <a href="participant.php?tournament_id=<?= $t['id'] ?>" class="consult">Consulter</a>
+                        </div>
+                    </form>
                 </li>
             <?php endforeach;} ?>
         

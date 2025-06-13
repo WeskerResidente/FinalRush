@@ -35,7 +35,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <p><?= htmlspecialchars($t['description'], ENT_QUOTES) ?></p>
           <p>Date de début : <?= htmlspecialchars($t['start_date'], ENT_QUOTES) ?></p>
           <p>Créé le : <?= htmlspecialchars($t['created_at'], ENT_QUOTES) ?></p>
-          <a href="registerTournament.php?id=<?= $t['id'] ?>">Participer</a>
+          <a href="registerTournament.php?id=<?= $t['id'] ?>" class="consult-participer">Participer</a>
         </div>
         <?php endif; ?>
       <?php endforeach; ?>
@@ -57,7 +57,7 @@ $tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <p>Date de début : <?= htmlspecialchars($t['start_date'], ENT_QUOTES) ?></p>
           <p>Créé le : <?= htmlspecialchars($t['created_at'], ENT_QUOTES) ?></p>
           <p class="tournament-closed">Ce tournoi est terminé.</p>
-          <a href="participant.php?tournament_id=<?= $t['id']?>">Consulter</a>
+          <a href="participant.php?tournament_id=<?= $t['id']?>" class="consult">Consulter</a>
         </div>
       <?php endif; ?>
     <?php endforeach; ?>
