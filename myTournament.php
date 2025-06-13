@@ -55,10 +55,12 @@ button.delete {
                     <?php if ($t['is_closed'] == 1): ?>
                         <p class="tournament-closed">Ce tournois est terminé</p>
                     <?php endif; ?>
-                    <form method="post" action="" style="display:inline">
-                        <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
-                        <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
-                    </form>
+                    <?php if ($t['is_closed'] == 0): ?>
+                        <form method="post" action="" style="display:inline">
+                            <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
+                            <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
+                        </form>
+                    <?php endif; ?>
                     <a href="participant.php?tournament_id=<?= $t['id'] ?>">Consulter</a>
                 </li>
             <?php endforeach;} ?>

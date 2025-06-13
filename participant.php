@@ -231,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && ! $locked) {
       <?php endif; ?>
     </p>
     <?php else:?> 
-    <p class="full"><strong>Ce tournoi est terminé.</strong></p>
+    <p class="tournament-closed"><strong>Ce tournoi est terminé.</strong></p>
     <?php endif; ?>
   <h1>
     <?= htmlspecialchars($tourney['name'], ENT_QUOTES) ?> 

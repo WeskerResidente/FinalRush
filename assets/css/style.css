@@ -71,6 +71,7 @@ body {
 }
 .navbar .nav-links {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
   list-style: none;
   margin: 0;
@@ -145,6 +146,85 @@ body {
   object-fit: cover;
 }
 
+.navbar-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 6px;
+  z-index: 1002;
+}
+.navbar-burger span {
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: #8f00ff;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+@media screen and (max-width: 1024px) {
+  .navbar-burger {
+    display: flex;
+  }
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: 2rem;
+    background: #0d0d0d;
+    border: 2px solid #8f00ff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #8f00ff;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 1rem 0.5rem;
+    min-width: 180px;
+    display: none !important;
+    z-index: 1001;
+  }
+  .nav-links.open {
+    display: flex !important;
+  }
+  .nav-links li {
+    width: 100%;
+    margin: 0;
+  }
+  .nav-links li a {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    display: block;
+    color: #d9d9d9;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .nav-links li a:hover {
+    background: #00e5ff;
+    color: #fff;
+  }
+}
+@media screen and (max-width: 500px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+    flex-direction: column;
+  }
+  .logo a {
+    font-size: 1.25rem;
+  }
+  .nav-links {
+    top: 60px;
+    right: 1rem;
+    min-width: 150px;
+  }
+  .nav-avatar {
+    width: 35px;
+    height: 35px;
+  }
+}
 .tournament-card {
   background: #0d0d0d, 8%;
   border: 2px solid #8f00ff;
@@ -494,7 +574,8 @@ footer .social-icons a:hover {
   opacity: 0.5;
   cursor: not-allowed;
 }
-#tournament-index .tournament-item-index .tournament-closed {
+
+.tournament-closed {
   color: #ff003c;
   border-radius: 4px;
   text-align: center;
@@ -503,7 +584,7 @@ footer .social-icons a:hover {
   padding: 0 0.5rem;
   width: fit-content;
 }
-#tournament-index .tournament-item-index .tournament-closed:hover {
+.tournament-closed:hover {
   box-shadow: 0 0 10px #8f00ff;
 }
 
