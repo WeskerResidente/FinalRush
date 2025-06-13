@@ -82,3 +82,23 @@
         box-shadow: vars.$glow-primary;
       }
 }
+
+.search-tournament {
+  text-align: center;
+  margin: 2rem 0;
+  input {
+    padding: 0.6rem;
+    width: 15%;
+    border: 2px solid vars.$color-light;
+    border-radius: 4px;
+    background: vars.$color-bg;
+    color: vars.$color-light;
+    font-family: vars.$font-body;
+    transition: border-color vars.$transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$color-primary;
+    }
+  }
+}
