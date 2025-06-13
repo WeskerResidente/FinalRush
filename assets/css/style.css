@@ -97,7 +97,7 @@ body {
   transition: transform 0.2s ease-in-out;
 }
 .navbar .nav-links li a:hover {
-  color: #00e5ff;
+  color: #8f00ff;
 }
 .navbar .nav-links li a:hover::after {
   transform: scaleX(1);
@@ -1288,12 +1288,13 @@ button.delete:disabled {
 }
 
 a.consult {
-  background: #00e5ff;
-  color: #000;
+  background: #8f00ff;
+  color: #d9d9d9;
   text-decoration: none;
 }
 a.consult:hover {
   box-shadow: 0 0 8px #00e5ff;
+  color: #8f00ff;
 }
 
 @media screen and (max-width: 1024px) {
