@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     die("Accès interdit. Redirection vers la page d'accueil dans 2 secondes.");
 }
 
-// ── 1) Pagination Utilisateurs ──────────────────────────────────────────────
+// affiche max 10 user par page
 $usersPerPage = 10;
 $page         = max(1, (int)($_GET['page']         ?? 1));
 $offset       = ($page - 1) * $usersPerPage;
@@ -27,7 +27,7 @@ $stmtU->bindValue(':o', $offset,       PDO::PARAM_INT);
 $stmtU->execute();
 $users = $stmtU->fetchAll(PDO::FETCH_ASSOC);
 
-// Suppression utilisateur
+// suppression utilisateur
 if (isset($_GET['delete_user'])) {
     $uid = (int)$_GET['delete_user'];
     if ($uid !== $_SESSION['user_id']) {
@@ -38,7 +38,7 @@ if (isset($_GET['delete_user'])) {
     exit;
 }
 
-// ── 2) Pagination Tournois ──────────────────────────────────────────────────
+// max 6 tournois par page
 $tournoisPerPage  = 6;
 $pageTournoi      = max(1, (int)($_GET['page_tournoi'] ?? 1));
 $offsetTournoi    = ($pageTournoi - 1) * $tournoisPerPage;
@@ -57,7 +57,7 @@ $stmtT->bindValue(':o', $offsetTournoi,   PDO::PARAM_INT);
 $stmtT->execute();
 $tournaments = $stmtT->fetchAll(PDO::FETCH_ASSOC);
 
-// Suppression tournoi
+// suppression tournoi
 if (isset($_GET['delete_tournament'])) {
     $tid = (int)$_GET['delete_tournament'];
     $bdd->prepare("DELETE FROM participants WHERE tournament_id = ?")->execute([$tid]);
@@ -66,7 +66,7 @@ if (isset($_GET['delete_tournament'])) {
     exit;
 }
 
-// ── 3) Gestion des Jeux (Game Panel) ────────────────────────────────────────
+// gestion des jeux
 $messageGame = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {
     $gname = trim($_POST['game_name'] ?? '');
@@ -82,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {
 }
 if (isset($_GET['delete_game'])) {
     $gid = (int)$_GET['delete_game'];
-    // Vérifier ou forcer la suppression en cascade selon votre besoin
     $bdd->prepare("DELETE FROM games WHERE id = ?")->execute([$gid]);
     header("Location: Admin-panel.php?page={$page}&page_tournoi={$pageTournoi}");
     exit;
@@ -102,7 +101,7 @@ $games = $bdd->query("SELECT id, name FROM games ORDER BY name ASC")
 
   <div class="admin-panel">
 
-    <!-- Utilisateurs -->
+    <!-- affichage user -->
     <section>
       <h2>Utilisateurs</h2>
       <table>
@@ -141,7 +140,7 @@ $games = $bdd->query("SELECT id, name FROM games ORDER BY name ASC")
       <?php endif; ?>
     </section>
 
-    <!-- Tournois -->
+    <!-- affichage tournois -->
     <section>
       <h2>Tournois</h2>
       <table>
@@ -183,7 +182,7 @@ $games = $bdd->query("SELECT id, name FROM games ORDER BY name ASC")
       <?php endif; ?>
     </section>
 
-    <!-- Game Panel -->
+    <!-- affichage jeux -->
     <section>
       <h2>Jeux</h2>
       <?php if ($messageGame): ?>
