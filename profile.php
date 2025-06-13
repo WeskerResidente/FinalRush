@@ -84,52 +84,54 @@ if (isset($_POST['delete_account'])) {
 </head>
 <body>
     <section class="page-profile">
-    <h1>Mon profil</h1>
+            <h1>Mon profil</h1>
 
-    <!-- Affichage de l'avatar -->
-    <div style="margin-bottom:1em;">
-        <?php
-        // Affiche l'avatar s'il existe, sinon une image par défaut
-        $stmtAvatar = $bdd->prepare("SELECT avatar FROM users WHERE id = ?");
-        $stmtAvatar->execute([$userId]);
-        $avatar = $stmtAvatar->fetchColumn();
-        $avatarUrl = ($avatar && file_exists("uploads/avatars/$avatar")) ? "uploads/avatars/$avatar" : "assets/img/default-avatar.png";
-        ?>
-        <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
-    </div>
+            <!-- Affichage de l'avatar -->
+            <div class="avatar-preview">
+                <?php
+                // Affiche l'avatar s'il existe, sinon une image par défaut
+                $stmtAvatar = $bdd->prepare("SELECT avatar FROM users WHERE id = ?");
+                $stmtAvatar->execute([$userId]);
+                $avatar = $stmtAvatar->fetchColumn();
+                $avatarUrl = ($avatar && file_exists("uploads/avatars/$avatar")) ? "uploads/avatars/$avatar" : "assets/img/default-avatar.png";
+                ?>
+                <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar">
+            </div>
 
-    <!-- Formulaire d'upload d'avatar -->
-    
-    <!-- gestion du pseudo -->
-    <h2>Modifier votre profil</h2>
-    <p>Bienvenue, <?= $user['username'] ?> !</p>
-    <p>Rôle : <?= $user['role'] ?></p>
-    <form method="post">
-        <label>Pseudo :</label>
-        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
-        <button type="submit" class="btn-profile">Mettre à jour</button>
-        <?= $messageUsername ?>
-    </form>
-    <!-- gestion de la couleur du pseudo -->
-    <form method="post">
-        <label for="color">Changer la couleur de votre pseudo</label>
-        <input type="color" id="color" name="color" required>
-        <button type="submit" class="btn-profile">Changer la couleur</button>
-        <?= $messageColor ?>
-    </form>
-    <!-- gestion de l'avatar -->
-    <form method="post" enctype="multipart/form-data">
-        <label for="avatar">Changer d'avatar :</label>
-        <input type="file" name="avatar" id="avatar" >
-        <button type="submit" name="upload_avatar" class="btn-profile">Mettre à jour l'avatar</button>
-    </form>
-    <?php if (!empty($messageAvatar)) echo $messageAvatar; ?>
-    <form method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
-    <button type="submit" name="delete_account" class="btn-profile" style="background:#c00;color:#fff;margin-top:2em;">
-        Supprimer mon compte
-    </button>
-</form>
-    <p>Si vous supprimez votre compte, toutes vos participations aux tournois seront également supprimées.</p>
-</section>
+            <!-- Formulaire d'upload d'avatar -->
+            
+            <!-- gestion du pseudo -->
+            <h2>Modifier votre profil</h2>
+            <p>Bienvenue, <?= $user['username'] ?> !</p>
+            <p>Rôle : <?= $user['role'] ?></p>
+            <form method="post">
+                <label>Pseudo :</label>
+                <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                <button type="submit" class="btn-profile">Mettre à jour</button>
+                <?= $messageUsername ?>
+            </form>
+            <!-- gestion de la couleur du pseudo -->
+            <form method="post">
+                <label for="color">Changer la couleur de votre pseudo</label>
+                <input type="color" id="color" name="color" required>
+                <button type="submit" class="btn-profile">Changer la couleur</button>
+                <?= $messageColor ?>
+            </form>
+            <!-- gestion de l'avatar -->
+            <form method="post" enctype="multipart/form-data">
+                <label for="avatar">Changer d'avatar :</label>
+                <input type="file" name="avatar" id="avatar" >
+                <button type="submit" name="upload_avatar" class="btn-profile">Mettre à jour l'avatar</button>
+            </form>
+            <?php if (!empty($messageAvatar)) echo $messageAvatar; ?>
+            <form method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
+            <div class="danger">
+                <button type="submit" name="delete_account" class="btn-profile" >
+                    Supprimer mon compte
+                </button>
+            </div>
+        </form>
+            <p>Si vous supprimez votre compte, toutes vos participations aux tournois seront également supprimées.</p>
+    </section>
 </body>
 </html>

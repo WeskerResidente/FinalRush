@@ -1,27 +1,41 @@
+// assets/scss/components/_profile.scss
+
 @use "../abstracts/variable" as vars;
 @use "../components/buttons"   as btn;
 
 .page-profile {
   max-width: 480px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: 3rem auto;
+  padding: 2.5rem;
   background: vars.$color-bg;
-  color: vars.$color-light;
+  border: 2px solid vars.$color-primary;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5), vars.$glow-primary;
   font-family: vars.$font-body;
-  border-radius: 8px;
-  box-shadow: vars.$glow-primary;
+  color: vars.$color-light;
+  position: relative;
 
-  h1, h2 {
+  // neon outline
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    pointer-events: none;
+    box-shadow: 0 0 12px vars.$color-primary;
+  }
+
+  h1 {
     font-family: vars.$font-title;
-    color: vars.$color-primary;
     text-align: center;
-    text-shadow: vars.$glow-secondary;
-    margin-bottom: 1rem;
+    color: vars.$color-secondary;
+    text-shadow: 0 0 6px vars.$color-secondary;
+    margin-bottom: 2rem;
   }
 
   .avatar-preview {
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 
     img {
       width: 100px;
@@ -33,12 +47,25 @@
     }
   }
 
+    h2 {
+      font-family: vars.$font-title;
+      color: vars.$color-secondary;
+      margin-bottom: 0.75rem;
+      text-shadow: vars.$glow-secondary;
+      font-size: 1.25rem;
+    }
+
+  p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
+
   form {
     margin-bottom: 1.5rem;
 
     label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       font-weight: bold;
       color: vars.$color-light;
     }
@@ -47,26 +74,34 @@
     input[type="color"],
     input[type="file"] {
       width: 100%;
-      padding: 0.6rem 0.8rem;
+      padding: 0.7rem;
       border: 2px solid vars.$color-light;
-      border-radius: 4px;
-      background: vars.$color-bg;
+      border-radius: 6px;
+      background: transparent;
       color: vars.$color-light;
       font-family: vars.$font-body;
       transition: border-color vars.$transition-fast,
                   box-shadow   vars.$transition-fast;
-
       &:focus {
         outline: none;
-        border-color: vars.$color-primary;
-        box-shadow: vars.$glow-primary;
+        border-color: vars.$color-secondary;
+        box-shadow: 0 0 8px vars.$color-secondary;
       }
     }
 
     .btn-profile {
       @include btn.button-base;
-      display: inline-block;
-      margin-top: 0.5rem;
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 8px vars.$color-primary;
+      transition: box-shadow vars.$transition-fast;
+      &:hover {
+        box-shadow: 0 0 12px vars.$color-secondary;
+      }
     }
   }
 
@@ -77,29 +112,30 @@
     &.succes {
       background: vars.$color-success;
       color: #000;
-      padding: 0.5rem;
+      padding: 0.6rem;
       border-radius: 4px;
       box-shadow: 0 0 6px vars.$color-success;
     }
+
     &.erreur {
       background: vars.$color-accent;
       color: #fff;
-      padding: 0.5rem;
+      padding: 0.6rem;
       border-radius: 4px;
       box-shadow: 0 0 6px vars.$color-accent;
     }
   }
 
   .danger {
-    text-align: center;
     margin-top: 2rem;
+    text-align: center;
 
     .btn-profile {
       background: vars.$color-accent;
       color: #fff;
-
+      box-shadow: 0 0 10px vars.$color-accent;
       &:hover {
-        box-shadow: 0 0 8px vars.$color-accent;
+        box-shadow: 0 0 14px vars.$color-accent;
       }
     }
   }
