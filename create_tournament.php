@@ -3,6 +3,7 @@ include("essentiel.php");
 include("security.php");
 include("nav.php");
 
+date_default_timezone_set('Europe/Paris');
 // 1) Seul l’admin peut créer un tournoi
 if (!isset($_SESSION['user_id'], $_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Refresh:2; url=index.php");

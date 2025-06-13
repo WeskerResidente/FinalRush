@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':password' => $hashedPwd,
             ]);
             $messageSuccess = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
+            header("Refresh:1; url=connexion.php");
         } catch (\PDOException $e) {
             // Gestion d’erreur (doublon pseudo)
             if ($e->getCode() === '23000') {

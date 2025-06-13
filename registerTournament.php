@@ -9,11 +9,12 @@ if ($tournamentId <= 0) {
     die("Tournoi invalide. (ID reçue: {$tournamentId})");
 }
 
-// 2) Charger les infos du tournoi
+
 $stmtT = $bdd->prepare("
   SELECT 
     t.name, 
-    t.start_date, 
+    t.start_date,
+    t.is_closed, 
     t.max_players, 
     g.name AS game_name
   FROM tournaments t
@@ -24,7 +25,7 @@ $stmtT->execute([$tournamentId]);
 $tourney = $stmtT->fetch(PDO::FETCH_ASSOC)
           ?: die("Tournoi introuvable.");
 
-// 3) Compter les inscrits
+
 $stmtCount = $bdd->prepare('
   SELECT COUNT(*) 
     FROM participants 
@@ -33,7 +34,7 @@ $stmtCount = $bdd->prepare('
 $stmtCount->execute([$tournamentId]);
 $currentCount = (int) $stmtCount->fetchColumn();
 
-// 4) Vérifier si l’utilisateur est déjà inscrit
+
 $alreadyRegistered = false;
 if (!empty($_SESSION['user_id'])) {
     $stmtChk = $bdd->prepare('
@@ -46,26 +47,30 @@ if (!empty($_SESSION['user_id'])) {
     $alreadyRegistered = (bool) $stmtChk->fetchColumn();
 }
 
-// 5) Traitement de l’inscription si POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
-    if (empty($_SESSION['user_id'])) {
-        die("Vous devez être connecté pour vous inscrire.");
-    }
-    if ($alreadyRegistered) {
-        $error = "Vous êtes déjà inscrit à ce tournoi.";
-    }
-    elseif ($currentCount >= $tourney['max_players']) {
-        $error = "Désolé, ce tournoi est déjà complet ({$tourney['max_players']} joueurs).";
-    } else {
-        $stmtIns = $bdd->prepare('
-          INSERT INTO participants (tournament_id, user_id)
-          VALUES (?, ?)
-        ');
-        $stmtIns->execute([$tournamentId, $_SESSION['user_id']]);
-        $success = "Vous êtes inscrit au tournoi !";
-        $currentCount++;
-        $alreadyRegistered = true;
-    }
+if ($tourney['is_closed']) {
+    die('<h1 class="message erreur">Ce tournoi est déjà terminé ou fermé.</h1><br>
+         <a href="tournaments.php" class="button">← Retour à la liste des tournois</a>');
+}else {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
+      if (empty($_SESSION['user_id'])) {
+          die("Vous devez être connecté pour vous inscrire.");
+      }
+      if ($alreadyRegistered) {
+          $error = "Vous êtes déjà inscrit à ce tournoi.";
+      }
+      elseif ($currentCount >= $tourney['max_players']) {
+          $error = "Désolé, ce tournoi est déjà complet ({$tourney['max_players']} joueurs).";
+      } else {
+          $stmtIns = $bdd->prepare('
+            INSERT INTO participants (tournament_id, user_id)
+            VALUES (?, ?)
+          ');
+          $stmtIns->execute([$tournamentId, $_SESSION['user_id']]);
+          $success = "Vous êtes inscrit au tournoi !";
+          $currentCount++;
+          $alreadyRegistered = true;
+      }
+  }
 }
 ?>
 <!DOCTYPE html>

@@ -494,6 +494,18 @@ footer .social-icons a:hover {
   opacity: 0.5;
   cursor: not-allowed;
 }
+#tournament-index .tournament-item-index .tournament-closed {
+  color: #ff003c;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+  width: fit-content;
+}
+#tournament-index .tournament-item-index .tournament-closed:hover {
+  box-shadow: 0 0 10px #8f00ff;
+}
 
 .bracket-page {
   background: #0d0d0d;
