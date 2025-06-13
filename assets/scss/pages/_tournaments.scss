@@ -65,7 +65,11 @@
         font-size: 0.9rem;
       }
     }
-    .tournament-closed {
+
+  }
+}
+
+.tournament-closed {
       color: vars.$color-accent;
       border-radius: 4px;
       text-align: center;
@@ -77,6 +81,4 @@
       &:hover {
         box-shadow: vars.$glow-primary;
       }
-    }
-  }
 }

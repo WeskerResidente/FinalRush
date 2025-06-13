@@ -43,7 +43,6 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 .navbar {
   display: flex;
   align-items: center;
@@ -494,7 +493,8 @@ footer .social-icons a:hover {
   opacity: 0.5;
   cursor: not-allowed;
 }
-#tournament-index .tournament-item-index .tournament-closed {
+
+.tournament-closed {
   color: #ff003c;
   border-radius: 4px;
   text-align: center;
@@ -503,7 +503,7 @@ footer .social-icons a:hover {
   padding: 0 0.5rem;
   width: fit-content;
 }
-#tournament-index .tournament-item-index .tournament-closed:hover {
+.tournament-closed:hover {
   box-shadow: 0 0 10px #8f00ff;
 }
 
@@ -1114,11 +1114,12 @@ main .champion {
 
 .my-tournaments {
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
-  color: #d9d9d9;
   background: #0d0d0d;
+  color: #d9d9d9;
+  border: 2px solid #8f00ff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 0 10px #8f00ff;
+  font-family: "Roboto", "Rajdhani", "Exo", sans-serif;
 }
 .my-tournaments h1 {
   font-family: "Orbitron", "Audiowide", sans-serif;
@@ -1132,79 +1133,87 @@ main .champion {
   padding: 0;
 }
 .my-tournaments ul li {
-  background: rgb(0.25, 0.25, 0.25);
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 2px solid #8f00ff;
-  border-radius: 6px;
-  box-shadow: 0 0 10px #8f00ff;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: rgb(0.25, 0.25, 0.25);
+  border: 2px solid #00e5ff;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 6px 0 0 10px #00e5ff;
 }
-.my-tournaments ul li strong {
-  font-size: 1.1rem;
+.my-tournaments ul li .tournament-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+.my-tournaments ul li .tournament-info .title {
+  font-weight: bold;
+  color: #fff;
+}
+.my-tournaments ul li .tournament-info .date {
+  font-size: 0.9rem;
   color: #d9d9d9;
 }
-.my-tournaments ul li a {
-  display: inline-block;
-  background: #8f00ff;
-  color: #000;
-  font-family: "Orbitron", "Audiowide", sans-serif;
-  padding: 0.8rem 1.6rem;
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 0 10px #8f00ff;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  margin-left: 1rem;
-  text-decoration: none;
+.my-tournaments ul li .tournament-info .status {
+  color: #ff003c;
+  font-weight: bold;
 }
-.my-tournaments ul li a:hover:not(:disabled) {
-  background: #00e5ff;
-  box-shadow: 0 0 10px #00e5ff;
+.my-tournaments ul li .no-tournaments {
+  text-align: center;
+  font-style: italic;
+  color: #d9d9d9;
 }
-.my-tournaments ul li a:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.my-tournaments .actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
-.my-tournaments ul li form {
-  display: inline;
-}
-.my-tournaments ul li form button.delete {
-  display: inline-block;
-  background: #8f00ff;
-  color: #000;
-  font-family: "Orbitron", "Audiowide", sans-serif;
-  padding: 0.8rem 1.6rem;
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 0 10px #8f00ff;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.my-tournaments .actions button.delete {
   background: none;
   color: #ff003c;
-  font-size: 1rem;
-  padding: 0.25rem 0.5rem;
-  margin-left: 0.5rem;
+  border: 2px solid #ff003c;
 }
-.my-tournaments ul li form button.delete:hover:not(:disabled) {
+.my-tournaments .actions button.delete:hover {
+  box-shadow: 0 0 8px #ff003c;
+}
+
+a.consult,
+button.delete {
+  display: inline-block;
+  background: #8f00ff;
+  color: #000;
+  font-family: "Orbitron", "Audiowide", sans-serif;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #8f00ff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+}
+a.consult:hover:not(:disabled),
+button.delete:hover:not(:disabled) {
   background: #00e5ff;
   box-shadow: 0 0 10px #00e5ff;
 }
-.my-tournaments ul li form button.delete:disabled {
+a.consult:disabled,
+button.delete:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.my-tournaments ul li form button.delete:hover {
-  box-shadow: 0 0 10px #00e5ff;
+
+a.consult {
+  background: #00e5ff;
+  color: #000;
+  text-decoration: none;
 }
-.my-tournaments .no-tournaments {
-  text-align: center;
-  color: #d9d9d9;
-  font-style: italic;
+a.consult:hover {
+  box-shadow: 0 0 8px #00e5ff;
 }
 
 .hero {
