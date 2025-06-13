@@ -27,10 +27,16 @@ if (isset($_SESSION['user_id'])) {
       </a>
     </div>
 
-    <ul class="nav-links">
+    <!-- BOUTON BURGER -->
+    <button class="navbar-burger" id="navbar-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.php">Accueil</a></li>
       <li><a href="tournaments.php">Tournois</a></li>
-
       <?php if (!empty($_SESSION['user_id'])): ?>
         <?php if ($_SESSION['role'] === 'admin'): ?>
           <li><a href="create_tournament.php">Créer un tournoi</a></li>
@@ -38,16 +44,19 @@ if (isset($_SESSION['user_id'])) {
         <?php endif; ?>
         <li><a href="myTournament.php">Mes tournois</a></li>
         <li><a href="profile.php">Mon profil</a></li>
+        <li>
+          <form action="deconexion.php" method="post" style="display:inline">
+            <button type="submit" class="button">Déconnexion</button>
+          </form>
+        </li>
       <?php else: ?>
         <li><a href="inscription.php">Inscription</a></li>
+        <li><a href="connexion.php" class="button">Connexion</a></li>
       <?php endif; ?>
     </ul>
-
+    
     <div class="navbar-user">
       <?php if (!empty($_SESSION['user_id'])): ?>
-        <form action="deconexion.php" method="post" style="display:inline">
-          <button type="submit" class="button">Déconnexion</button>
-        </form>
         <div class="nav-avatars-container">
           <a href="profile.php">
             <img 
@@ -58,17 +67,28 @@ if (isset($_SESSION['user_id'])) {
           </a>
         </div>
         <?php 
-          // si color défini, l'utiliser, sinon couleur par défaut (gris clair)
           $usernameColor = $request['color'] ?? '#d9d9d9';
         ?>
         <span class="username-nav" style="color:<?= htmlspecialchars($usernameColor, ENT_QUOTES) ?>;">
           Bonjour <?= htmlspecialchars($_SESSION['username'], ENT_QUOTES) ?>
         </span>
       <?php else: ?>
-        <a href="connexion.php" class="button">Connexion</a>
         <span>Bonjour Invité</span>
       <?php endif; ?>
     </div>
   </header>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const burger = document.getElementById('navbar-burger');
+      const nav = document.getElementById('nav-links');
+      if (burger && nav) {
+        burger.addEventListener('click', function() {
+          nav.classList.toggle('open');
+          burger.classList.toggle('open');
+          burger.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
