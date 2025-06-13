@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : ven. 13 juin 2025 à 07:11
+-- Généré le : ven. 13 juin 2025 à 07:16
 -- Version du serveur : 8.0.42
 -- Version de PHP : 8.2.27
 
