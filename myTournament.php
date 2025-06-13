@@ -52,11 +52,18 @@ button.delete {
                 <li>
                     <span class="tittle"></span><strong><?= htmlspecialchars($t['name']) ?></strong></span><span class="date"> (début : <?= htmlspecialchars($t['start_date']) ?>)</span>
                     <br>
+                    <!-- affichage uniquement si closed -->
                     <?php if ($t['is_closed'] == 1): ?>
                         <span class="status">Ce tournois est terminé</span>
                     <?php endif; ?>
+<<<<<<< create_tournament
+                    <!-- affichage uniquement si non closed -->
+                    <?php if ($t['is_closed'] == 0): ?>
+                        <form method="post" action="" style="display:inline">
+=======
                     <form method="post" action="" style="display:inline">
                         <div class="actions">
+>>>>>>> main
                             <input type="hidden" name="tournament_id" value="<?= intval($t['id']) ?>">
                             <button type="submit" name="leave" class="delete" onclick="return confirm('Se désinscrire de ce tournoi ?');">❌ Se désinscrire</button>
                             <a href="participant.php?tournament_id=<?= $t['id'] ?>" class="consult">Consulter</a>
