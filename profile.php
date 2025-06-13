@@ -83,6 +83,7 @@ if (isset($_POST['delete_account'])) {
     <title>Mon profil</title>
 </head>
 <body>
+    <section class="page-profile">
     <h1>Mon profil</h1>
 
     <!-- Affichage de l'avatar -->
@@ -119,7 +120,7 @@ if (isset($_POST['delete_account'])) {
     <!-- gestion de l'avatar -->
     <form method="post" enctype="multipart/form-data">
         <label for="avatar">Changer d'avatar :</label>
-        <input type="file" name="avatar" id="avatar" accept="image/*">
+        <input type="file" name="avatar" id="avatar" >
         <button type="submit" name="upload_avatar" class="btn-profile">Mettre à jour l'avatar</button>
     </form>
     <?php if (!empty($messageAvatar)) echo $messageAvatar; ?>
@@ -129,5 +130,6 @@ if (isset($_POST['delete_account'])) {
     </button>
 </form>
     <p>Si vous supprimez votre compte, toutes vos participations aux tournois seront également supprimées.</p>
+</section>
 </body>
 </html>

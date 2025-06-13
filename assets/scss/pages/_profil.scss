@@ -1,0 +1,106 @@
+@use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
+
+.page-profile {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: vars.$color-bg;
+  color: vars.$color-light;
+  font-family: vars.$font-body;
+  border-radius: 8px;
+  box-shadow: vars.$glow-primary;
+
+  h1, h2 {
+    font-family: vars.$font-title;
+    color: vars.$color-primary;
+    text-align: center;
+    text-shadow: vars.$glow-secondary;
+    margin-bottom: 1rem;
+  }
+
+  .avatar-preview {
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid vars.$color-secondary;
+      box-shadow: 0 0 8px vars.$glow-secondary;
+    }
+  }
+
+  form {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: vars.$color-light;
+    }
+
+    input[type="text"],
+    input[type="color"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid vars.$color-light;
+      border-radius: 4px;
+      background: vars.$color-bg;
+      color: vars.$color-light;
+      font-family: vars.$font-body;
+      transition: border-color vars.$transition-fast,
+                  box-shadow   vars.$transition-fast;
+
+      &:focus {
+        outline: none;
+        border-color: vars.$color-primary;
+        box-shadow: vars.$glow-primary;
+      }
+    }
+
+    .btn-profile {
+      @include btn.button-base;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .message {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+
+    &.succes {
+      background: vars.$color-success;
+      color: #000;
+      padding: 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 0 6px vars.$color-success;
+    }
+    &.erreur {
+      background: vars.$color-accent;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 0 6px vars.$color-accent;
+    }
+  }
+
+  .danger {
+    text-align: center;
+    margin-top: 2rem;
+
+    .btn-profile {
+      background: vars.$color-accent;
+      color: #fff;
+
+      &:hover {
+        box-shadow: 0 0 8px vars.$color-accent;
+      }
+    }
+  }
+}

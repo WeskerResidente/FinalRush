@@ -1,201 +1,211 @@
 <?php
+
 include("essentiel.php");
 include("security.php");
+include("nav.php");
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Refresh:2; url=index.php");
     die("Accès interdit. Redirection vers la page d'accueil dans 2 secondes.");
 }
 
-// Pagination utilisateurs
+// ── 1) Pagination Utilisateurs ──────────────────────────────────────────────
 $usersPerPage = 10;
-$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$offset = ($page - 1) * $usersPerPage;
+$page         = max(1, (int)($_GET['page']         ?? 1));
+$offset       = ($page - 1) * $usersPerPage;
+$totalUsers   = (int)$bdd->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalPages   = ceil($totalUsers / $usersPerPage);
 
-$totalUsers = $bdd->prepare("SELECT COUNT(*) FROM users")->fetchColumn();
-$totalPages = ceil($totalUsers / $usersPerPage);
-
-$stmt = $bdd->prepare("SELECT * FROM users ORDER BY id ASC LIMIT :limit OFFSET :offset");
-$stmt->bindValue(':limit', $usersPerPage, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$users = $stmt->fetchAll();
-
-// Pagination tournois
-
-$tournoisPerPage = 6;
-
-$pageTournoi = isset($_GET['page_tournoi']) ? max(1, intval($_GET['page_tournoi'])) : 1;
-$offsetTournoi = ($pageTournoi - 1) * $tournoisPerPage;
-
-$totalTournois = $bdd->query("SELECT COUNT(*) FROM tournaments")->fetchColumn();
-$totalPagesTournoi = ceil($totalTournois / $tournoisPerPage);
-
-$stmtTournoi = $bdd->prepare("SELECT * FROM tournaments ORDER BY id DESC LIMIT :limit OFFSET :offset");
-$stmtTournoi->bindValue(':limit', $tournoisPerPage, PDO::PARAM_INT);
-$stmtTournoi->bindValue(':offset', $offsetTournoi, PDO::PARAM_INT);
-$stmtTournoi->execute();
-$tournaments = $stmtTournoi->fetchAll(PDO::FETCH_ASSOC);
+$stmtU = $bdd->prepare(
+    "SELECT id, username, role
+       FROM users
+      ORDER BY id ASC
+      LIMIT :l OFFSET :o"
+);
+$stmtU->bindValue(':l', $usersPerPage, PDO::PARAM_INT);
+$stmtU->bindValue(':o', $offset,       PDO::PARAM_INT);
+$stmtU->execute();
+$users = $stmtU->fetchAll(PDO::FETCH_ASSOC);
 
 // Suppression utilisateur
-if (isset($_GET['delete'])) {
-    if ($_GET['delete'] == $_SESSION['user_id']) {
-        header("Refresh:2; url=Admin-panel.php");
-        die("Vous ne pouvez pas supprimer votre propre compte.");
-    } else{
-        $id = (int) $_GET['delete'];
-        $delete = $bdd->prepare("DELETE FROM users WHERE id = ?");
-        $delete->execute([$id]);
-        header("Location: Admin-panel.php");
-        exit;
+if (isset($_GET['delete_user'])) {
+    $uid = (int)$_GET['delete_user'];
+    if ($uid !== $_SESSION['user_id']) {
+        $bdd->prepare("DELETE FROM users WHERE id = ?")
+            ->execute([$uid]);
     }
+    header("Location: Admin-panel.php?page={$page}&page_tournoi={$pageTournoi}");
+    exit;
 }
 
-// Supprimer un tournoi
+// ── 2) Pagination Tournois ──────────────────────────────────────────────────
+$tournoisPerPage  = 6;
+$pageTournoi      = max(1, (int)($_GET['page_tournoi'] ?? 1));
+$offsetTournoi    = ($pageTournoi - 1) * $tournoisPerPage;
+$totalTournois    = (int)$bdd->query("SELECT COUNT(*) FROM tournaments")->fetchColumn();
+$totalPagesTournoi= ceil($totalTournois / $tournoisPerPage);
+
+$stmtT = $bdd->prepare("
+  SELECT t.id, t.name, t.start_date, t.created_at, g.name AS game_name
+    FROM tournaments t
+LEFT JOIN games g ON g.id = t.game_id
+   ORDER BY t.id DESC
+   LIMIT :l OFFSET :o
+");
+$stmtT->bindValue(':l', $tournoisPerPage, PDO::PARAM_INT);
+$stmtT->bindValue(':o', $offsetTournoi,   PDO::PARAM_INT);
+$stmtT->execute();
+$tournaments = $stmtT->fetchAll(PDO::FETCH_ASSOC);
+
+// Suppression tournoi
 if (isset($_GET['delete_tournament'])) {
     $tid = (int)$_GET['delete_tournament'];
-    // Supprimer les participants liés
     $bdd->prepare("DELETE FROM participants WHERE tournament_id = ?")->execute([$tid]);
-    // Supprimer le tournoi
-    $bdd->prepare("DELETE FROM tournaments WHERE id = ?")->execute([$tid]);
-    header("Location: Admin-panel.php");
+    $bdd->prepare("DELETE FROM tournaments WHERE id = ?")            ->execute([$tid]);
+    header("Location: Admin-panel.php?page={$page}&page_tournoi={$pageTournoi}");
     exit;
 }
 
-// Supprimer un participant d'un tournoi
-if (isset($_GET['remove_participant']) && isset($_GET['tournament'])) {
-    $uid = (int)$_GET['remove_participant'];
-    $tid = (int)$_GET['tournament'];
-    $bdd->prepare("DELETE FROM participants WHERE user_id = ? AND tournament_id = ?")->execute([$uid, $tid]);
-    header("Location: Admin-panel.php");
+// ── 3) Gestion des Jeux (Game Panel) ────────────────────────────────────────
+$messageGame = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {
+    $gname = trim($_POST['game_name'] ?? '');
+    if ($gname !== '') {
+        try {
+            $bdd->prepare("INSERT INTO games(name) VALUES(?)")
+                ->execute([$gname]);
+            $messageGame = "Jeu « {$gname} » ajouté.";
+        } catch (PDOException $e) {
+            $messageGame = "Erreur : ce jeu existe déjà.";
+        }
+    }
+}
+if (isset($_GET['delete_game'])) {
+    $gid = (int)$_GET['delete_game'];
+    // Vérifier ou forcer la suppression en cascade selon votre besoin
+    $bdd->prepare("DELETE FROM games WHERE id = ?")->execute([$gid]);
+    header("Location: Admin-panel.php?page={$page}&page_tournoi={$pageTournoi}");
     exit;
 }
+$games = $bdd->query("SELECT id, name FROM games ORDER BY name ASC")
+             ->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Liste des utilisateurs</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin: 20px auto;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #aaa;
-            text-align: center;
-        }
-        h1 {
-            text-align: center;
-        }
-        a.delete {
-            color: red;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Admin-Panel — FinalRush</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <?php include("nav.php"); ?>
-  <div class="admin-panel">
-    <h1>Liste des utilisateurs</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom d'utilisateur</th>
-                <th>Rôle</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['id']) ?></td>
-                <td><?= htmlspecialchars($user['username']) ?></td>
-                <td><?= htmlspecialchars($user['role']) ?></td>
-                <td>
-                    <a href="Admin-panel.php?delete=<?= $user['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>" class="delete" onclick="return confirm('Supprimer cet utilisateur ?');">🗑 Supprimer</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-    <?php if ($totalPages > 1): ?>
-        <div style="text-align:center; margin:20px;">
-            <?php if ($page > 1): ?>
-                <a href="Admin-panel.php?page=<?= $page - 1 ?>&page_tournoi=<?= $pageTournoi ?>" style="margin-right:10px;">&laquo; Précédent</a>
-            <?php endif; ?>
-            Page <?= $page ?> / <?= $totalPages ?>
-            <?php if ($page < $totalPages): ?>
-                <a href="Admin-panel.php?page=<?= $page + 1 ?>&page_tournoi=<?= $pageTournoi ?>" style="margin-left:10px;">Suivant &raquo;</a>
-            <?php endif; ?>
-        </div>
-    <?php endif; ?>
 
-    <h1>Liste des tournois</h1>
-    <table>
+
+  <div class="admin-panel">
+
+    <!-- Utilisateurs -->
+    <section>
+      <h2>Utilisateurs</h2>
+      <table>
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Date de début</th>
-                <th>Créé le</th>
-                <th>Participants</th>
-                <th>Actions</th>
-            </tr>
+          <tr><th>ID</th><th>Pseudo</th><th>Rôle</th><th>Actions</th></tr>
         </thead>
         <tbody>
-        <?php
-        foreach ($tournaments as $tournament):
-            // Récupérer les participants de ce tournoi
-            $stmtP = $bdd->prepare("SELECT users.id, users.username 
-                                            FROM participants 
-                                            JOIN users ON participants.user_id = users.id 
-                                            WHERE participants.tournament_id = ?");
-            $stmtP->execute([$tournament['id']]);
-            $participants = $stmtP->fetchAll(PDO::FETCH_ASSOC);
-        ?>
-            <tr>
-                <td><?= htmlspecialchars($tournament['id']) ?></td>
-                <td><?= htmlspecialchars($tournament['name']) ?></td>
-                <td><?= htmlspecialchars($tournament['start_date']) ?></td>
-                <td><?= htmlspecialchars($tournament['created_at']) ?></td>
-                <td>
-                    <?php if ($participants): ?>
-                        <ul style="padding-left:15px;">
-                        <?php foreach ($participants as $p): ?>
-                            <li>
-                                <?= htmlspecialchars($p['username']) ?>
-                                <a href="Admin-panel.php?remove_participant=<?= $p['id'] ?>&tournament=<?= $tournament['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>" class="delete" onclick="return confirm('Retirer ce participant ?');" title="Supprimer ce participant">❌</a>
-                            </li>
-                        <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        Aucun
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <a href="Admin-panel.php?delete_tournament=<?= $tournament['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>" class="delete" onclick="return confirm('Supprimer ce tournoi ?');">🗑 Supprimer</a>
-                </td>
-            </tr>
+        <?php foreach ($users as $u): ?>
+          <tr>
+            <td><?= $u['id'] ?></td>
+            <td><?= htmlspecialchars($u['username'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($u['role'],     ENT_QUOTES) ?></td>
+            <td>
+              <?php if ($u['id'] !== $_SESSION['user_id']): ?>
+                <a href="?delete_user=<?= $u['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>"
+                   class="delete"
+                   onclick="return confirm('Supprimer cet utilisateur ?');"
+                >🗑</a>
+              <?php endif; ?>
+            </td>
+          </tr>
         <?php endforeach; ?>
         </tbody>
-    </table>
-    <?php if ($totalPagesTournoi > 1): ?>
-        <div style="text-align:center; margin:20px;">
-            <?php if ($pageTournoi > 1): ?>
-                <a href="Admin-panel.php?page_tournoi=<?= $pageTournoi - 1 ?>&page=<?= $page ?>" style="margin-right:10px;">&laquo; Précédent</a>
-            <?php endif; ?>
-            Page <?= $pageTournoi ?> / <?= $totalPagesTournoi ?>
-            <?php if ($pageTournoi < $totalPagesTournoi): ?>
-                <a href="Admin-panel.php?page_tournoi=<?= $pageTournoi + 1 ?>&page=<?= $page ?>" style="margin-left:10px;">Suivant &raquo;</a>
-            <?php endif; ?>
+      </table>
+
+      <?php if ($totalPages > 1): ?>
+        <div class="pagination">
+          <?php if ($page > 1): ?>
+            <a href="?page=<?= $page-1 ?>&page_tournoi=<?= $pageTournoi ?>">&laquo; Précédent</a>
+          <?php endif; ?>
+          Page <?= $page ?> / <?= $totalPages ?>
+          <?php if ($page < $totalPages): ?>
+            <a href="?page=<?= $page+1 ?>&page_tournoi=<?= $pageTournoi ?>">Suivant &raquo;</a>
+          <?php endif; ?>
         </div>
-    <?php endif; ?>
-    </div>
+      <?php endif; ?>
+    </section>
+
+    <!-- Tournois -->
+    <section>
+      <h2>Tournois</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Nom</th><th>Jeu</th>
+            <th>Début</th><th>Créé le</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($tournaments as $t): ?>
+          <tr>
+            <td><?= $t['id'] ?></td>
+            <td><?= htmlspecialchars($t['name'],      ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($t['game_name'], ENT_QUOTES) ?></td>
+            <td><?= $t['start_date'] ?></td>
+            <td><?= $t['created_at'] ?></td>
+            <td>
+              <a href="?delete_tournament=<?= $t['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>"
+                 class="delete"
+                 onclick="return confirm('Supprimer ce tournoi ?');"
+              >🗑</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <?php if ($totalPagesTournoi > 1): ?>
+        <div class="pagination">
+          <?php if ($pageTournoi > 1): ?>
+            <a href="?page_tournoi=<?= $pageTournoi-1 ?>&page=<?= $page ?>">&laquo; Précédent</a>
+          <?php endif; ?>
+          Page <?= $pageTournoi ?> / <?= $totalPagesTournoi ?>
+          <?php if ($pageTournoi < $totalPagesTournoi): ?>
+            <a href="?page_tournoi=<?= $pageTournoi+1 ?>&page=<?= $page ?>">Suivant &raquo;</a>
+          <?php endif; ?>
+        </div>
+      <?php endif; ?>
+    </section>
+
+    <!-- Game Panel -->
+    <section>
+      <h2>Jeux</h2>
+      <?php if ($messageGame): ?>
+        <p class="message succes"><?= htmlspecialchars($messageGame, ENT_QUOTES) ?></p>
+      <?php endif; ?>
+      <form method="post" class="form-inline">
+        <input type="text" name="game_name" placeholder="Nom du jeu…" required>
+        <button type="submit" name="add_game" class="button">➕ Ajouter</button>
+      </form>
+      <ul class="game-list">
+        <?php foreach ($games as $g): ?>
+          <li>
+            <?= htmlspecialchars($g['name'], ENT_QUOTES) ?>
+            <a href="?delete_game=<?= $g['id'] ?>&page=<?= $page ?>&page_tournoi=<?= $pageTournoi ?>"
+               class="delete"
+               onclick="return confirm('Supprimer ce jeu ?');"
+            >🗑</a>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </section>
+
+  </div>
 </body>
 </html>

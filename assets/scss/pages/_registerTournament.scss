@@ -1,0 +1,79 @@
+// assets/scss/components/_register-tournament.scss
+
+@use "../abstracts/variable" as vars;
+@use "../components/buttons"   as btn;
+
+.page-register-tournament {
+  max-width: 480px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: vars.$color-bg;
+  border: 2px solid vars.$color-primary;
+  border-radius: 8px;
+  box-shadow: vars.$glow-primary;
+  font-family: vars.$font-body;
+  color: vars.$color-light;
+
+  h2 {
+    font-family: vars.$font-title;
+    color: vars.$color-secondary;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: vars.$glow-secondary;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+
+    &.info {
+      margin-top: 1rem;
+      color: vars.$color-secondary;
+      text-align: center;
+    }
+  }
+
+  .message {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+
+    &.erreur {
+      background: vars.$color-accent;
+      color: #fff;
+      box-shadow: 0 0 8px vars.$color-accent;
+    }
+
+    &.succes {
+      background: vars.$color-success;
+      color: #000;
+      box-shadow: 0 0 8px vars.$color-success;
+    }
+  }
+
+  form {
+    text-align: center;
+    margin: 1.5rem 0;
+
+    button {
+      @include btn.button-base;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      margin: 0 auto;
+      display: inline-block;
+    }
+  }
+
+  a {
+    color: vars.$color-secondary;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color vars.$transition-fast;
+
+    &:hover {
+      color: vars.$color-primary;
+      text-shadow: vars.$glow-primary;
+    }
+  }
+}

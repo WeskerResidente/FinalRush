@@ -73,7 +73,7 @@
   }
 
   .btn-enregistrer {
-    @extend .button; // assumes you have .button in components/_buttons.scss
+    @extend .button; 
     width: 100%;
     text-align: center;
   }
